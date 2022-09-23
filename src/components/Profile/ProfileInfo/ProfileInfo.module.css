@@ -1,0 +1,10 @@
+.profile_imgWrapper {
+    width: 100%;
+}
+.profile_imgWrapper img {
+     height: 300px;
+     width: 100%;
+ }
+.profileDescription {
+    margin-top: 15px;
+}
