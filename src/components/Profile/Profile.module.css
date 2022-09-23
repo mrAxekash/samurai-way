@@ -1,3 +1,7 @@
-.profile_imgWrapper img {
-    width: 80%;
+.profile_imgWrapper {
+    width: 100%;
 }
+.profile_imgWrapper img {
+     height: 300px;
+     width: 100%;
+ }

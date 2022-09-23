@@ -1,10 +1,20 @@
 .nav {
     grid-area: n;
     background-color: greenyellow;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
 }
 
+.nav div {
+    padding: 20px;
+}
 .item {
     color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+
 }
 
 .active {
