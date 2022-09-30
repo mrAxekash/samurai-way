@@ -10,7 +10,7 @@ export const ProfileInfo = () => {
                     alt="image"/>
             </div>
             <div className={classes.profileDescription}>
-                avatar + description
+                avatar + description +++
             </div>
         </div>
     )
