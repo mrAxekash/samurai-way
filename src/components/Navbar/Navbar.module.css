@@ -10,11 +10,14 @@
 .nav div {
     padding: 20px;
 }
+
 .item {
     color: #fff;
     font-size: 24px;
     text-decoration: none;
-
+}
+.item:hover {
+    color: gold;
 }
 
 .active {
