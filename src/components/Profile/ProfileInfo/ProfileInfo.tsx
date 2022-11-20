@@ -2,10 +2,10 @@ import React from "react";
 import classes from './ProfileInfo.module.css';
 
 
-type ProfileInfoPropsType = {
+type ProfileInfoType = {
     imageLink: string
 }
-export const ProfileInfo = (props: ProfileInfoPropsType) => {
+export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
     return (
         <div>
             <div className={classes.profile_imgWrapper}>

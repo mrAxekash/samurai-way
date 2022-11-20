@@ -8,66 +8,33 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {BrowserRouter, Route} from "react-router-dom";
+import {RootStateType} from "./redux/state";
 
-type AppPropsType = {
-    dialogsData: DialogsDataPropsType[]
-    messagesData: MessagesDataPropsType[]
-    postsData: PostsDataPropsType[]
-    imageLink: string
+type AppType = {
+    state: RootStateType
+    addPost: (newPost: string) => void
 }
 
-export type DialogsDataPropsType = {
-    id: string
-    name: string
-    isActive: boolean
-}
-export type MessagesDataPropsType = {
-    id: string
-    message: string
-}
-export type PostsDataPropsType = {
-    id: string
-    message: string
-    likesCount: number
-}
-
-function App(props: AppPropsType) { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
-
-    const profileData = () => {
-        return (
-            <Profile postsData={props.postsData} imageLink={props.imageLink} />
-        )
-    }
+const App: React.FC<AppType> = (props) => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
     return (
-        <BrowserRouter>
-            <div className={'app-wrapper'}>
-                <Header/>
-                <Navbar/>
-                <div className={'app-wrapper-content'}>
-                    <Route exact path={'/profile'} render={ profileData }/>
-                    {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
-                    <Route exact path={'/dialogs'} render={() => <Dialogs dialogsData={props.dialogsData} messagesData={props.messagesData} />}/>
-                    <Route exact path={'/news'} component={News} />
-                    <Route exact path={'/music'} component={Music} />
-                    <Route exact path={'/settings'} component={Settings} />
-                </div>
+        <div className={'app-wrapper'}>
+            <Header/>
+            <Navbar friends={props.state.sidebar.bestFriend}/>
+            <div className={'app-wrapper-content'}>
+                <Route exact path={'/profile'}
+                       render={() => <Profile postsData={props.state.profilePage.posts}
+                                              imageLink={props.state.profilePage.imageLink}
+                                              addPost={props.addPost}/>}/>
+                {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
+                <Route exact path={'/dialogs'}
+                       render={() => <Dialogs dialogs={props.state.dialogsPage.dialogs}
+                                              messages={props.state.dialogsPage.messages}/>}/>
+                <Route exact path={'/news'} component={News}/>
+                <Route exact path={'/music'} component={Music}/>
+                <Route exact path={'/settings'} component={Settings}/>
             </div>
-        </BrowserRouter>
-
-
+        </div>
         //<BrowserRouter> {/*BrowserRouter - обёртка для ссылок в документе. Применяется для работы компонент Route */}
-//            <div className='app-wrapper'>
-//                <Header/>
-//                <Navbar/>
-//                <div className={'app-wrapper-content'}>
-//                    <Route exact path='/profile' component={Profile}/>
-//                    <Route exact path='/dialogs' component={Dialogs}/>
-//                    <Route path='/news' component={News}/>
-//                    <Route path='/music' component={Music}/>
-//                    <Route path='/settings' component={Settings}/>
-//                    <Route />
-//               </div>
-//            </div>
 //        </BrowserRouter>
     );
 }

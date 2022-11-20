@@ -3,16 +3,29 @@
     grid-template-columns: 3fr 9fr;
     padding: 10px;
 }
-.dialogs .active a{
+
+.dialogs .active a {
     color: green;
 }
+
 .dialogItems {
     padding: 10px;
     font-size: 20px;
     text-decoration: none;
 }
 
-.dialogItems{
+.dialogs img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.dialog {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.dialogItems {
     color: blue;
 }
 
@@ -35,4 +48,27 @@ a.active {
 
 .message {
     font-size: 20px;
+    margin-bottom: 10px;
+    display: flex;
 }
+
+.message img {
+    margin: 0 10px 0 10px;
+}
+
+.message div {
+    display: flex;
+    align-items: center;
+}
+
+.friendMessage {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 20px;
+    margin-bottom: 10px;
+    align-items: center;
+}
+.friendMessage img {
+    margin: 0 10px 0 10px;
+}
+

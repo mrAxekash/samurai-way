@@ -1,11 +1,13 @@
 import React from "react";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {PostsDataPropsType} from "../../App";
+import {PostsType} from "../../redux/state";
+
 
 type ProfilePropsType = {
     imageLink: string
-    postsData: PostsDataPropsType[]
+    postsData: PostsType[]
+    addPost: (newPost: string) => void
 }
 
 export const Profile = (props: ProfilePropsType) => {
@@ -22,7 +24,7 @@ export const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo imageLink={props.imageLink}/>
-            <MyPosts postsData={props.postsData}/>
+            <MyPosts postsData={props.postsData} addPost={props.addPost}/>
         </div>
     )
 }

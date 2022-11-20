@@ -1,6 +1,11 @@
-.nav {
+aside {
     grid-area: n;
-    background-color: greenyellow;
+    background-color: #424242;
+}
+
+.nav {
+    /*grid-area: n;*/
+    /*background-color: greenyellow;*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,6 +15,7 @@
 .nav div {
     padding: 20px;
 }
+
 
 .item {
     color: #fff;
