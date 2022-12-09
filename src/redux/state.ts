@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import {renderEntireTree} from "../render";
+
 export type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
@@ -42,6 +42,9 @@ export type SidebarType = {
     bestFriend: BestFriendsType[]
 }
 
+let renderEntireTree = (state: any) => {
+    console.log("hello world")
+}
 
 export let state: RootStateType = {
     profilePage: {
@@ -119,4 +122,8 @@ export const updateNewPostText = (newText: string) => {
 export const updateNewMessageText = (newMessage: string) => {
     state.dialogsPage.newMessageText = newMessage
     renderEntireTree(state)
+}
+
+export const subscriber = (observer: any) => {
+    renderEntireTree = observer;
 }
