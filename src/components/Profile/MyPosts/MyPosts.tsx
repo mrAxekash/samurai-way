@@ -5,8 +5,9 @@ import {Post} from "./Post/Post";
 
 type MyPostsType = {
     postsData: Array<MyPostPropsType>
-    addPost: (newPost: string) => void
-
+    addPost: () => void
+    newPostText: string
+    updateNewPostText: (newText: string) => void
 }
 
 type MyPostPropsType = {
@@ -19,18 +20,13 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
 
     let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={p.likesCount}/>)
 
-    let[newPostElement, setNewPostElement] = useState('')
+    let newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    //устаревшая версия записи let newPostElement: RefObject<HTMLTextAreaElement> = React.createRef()
-    // const onClickHandler = () => {
-    //     alert(newPostElement.current?.value)
-    // }
-    const onChangeHandler = (event: ChangeEvent<HTMLTextAreaElement>) => {
-        setNewPostElement(event.currentTarget.value)
-    }
     const onClickHandler = () => {
-        props.addPost(newPostElement)
-        setNewPostElement('')
+        props.addPost()
+    }
+    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
@@ -38,8 +34,7 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    {/* устаревшая версия записи <textarea ref={newPostElement}></textarea>*/}
-                    <textarea value={newPostElement} onChange={onChangeHandler}></textarea>
+                    <textarea ref={newPostElement} value={props.newPostText} onChange={onPostChange}></textarea>
                 </div>
                 <button onClick={onClickHandler}>Add post</button>
                 <button>Remove post</button>

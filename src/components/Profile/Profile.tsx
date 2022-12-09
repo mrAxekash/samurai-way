@@ -7,7 +7,9 @@ import {PostsType} from "../../redux/state";
 type ProfilePropsType = {
     imageLink: string
     postsData: PostsType[]
-    addPost: (newPost: string) => void
+    addPost: () => void
+    newPostText: string
+    updateNewPostText: (newText: string) => void
 }
 
 export const Profile = (props: ProfilePropsType) => {
@@ -24,7 +26,7 @@ export const Profile = (props: ProfilePropsType) => {
     return (
         <div>
             <ProfileInfo imageLink={props.imageLink}/>
-            <MyPosts postsData={props.postsData} addPost={props.addPost}/>
+            <MyPosts postsData={props.postsData} addPost={props.addPost} newPostText={props.newPostText} updateNewPostText={props.updateNewPostText}/>
         </div>
     )
 }

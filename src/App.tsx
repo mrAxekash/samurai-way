@@ -8,11 +8,14 @@ import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {BrowserRouter, Route} from "react-router-dom";
-import {RootStateType} from "./redux/state";
+import {RootStateType, updateNewMessageText} from "./redux/state";
 
 type AppType = {
     state: RootStateType
-    addPost: (newPost: string) => void
+    addPost: () => void
+    updateNewPostText: (newText: string) => void
+    addMessage: () => void
+    updateNewMessageText: (newMessage: string) => void
 }
 
 const App: React.FC<AppType> = (props) => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
@@ -24,11 +27,18 @@ const App: React.FC<AppType> = (props) => { /*функция-компонент�
                 <Route exact path={'/profile'}
                        render={() => <Profile postsData={props.state.profilePage.posts}
                                               imageLink={props.state.profilePage.imageLink}
-                                              addPost={props.addPost}/>}/>
+                                              addPost={props.addPost}
+                                              newPostText={props.state.profilePage.newPostText}
+                                              updateNewPostText={props.updateNewPostText}
+                       />}/>
                 {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                 <Route exact path={'/dialogs'}
                        render={() => <Dialogs dialogs={props.state.dialogsPage.dialogs}
-                                              messages={props.state.dialogsPage.messages}/>}/>
+                                              messages={props.state.dialogsPage.messages}
+                                              addMessage={props.addMessage}
+                                              updateNewMessageText={props.updateNewMessageText}
+                                              newMessageText={props.state.dialogsPage.newMessageText}
+                                                />}/>
                 <Route exact path={'/news'} component={News}/>
                 <Route exact path={'/music'} component={Music}/>
                 <Route exact path={'/settings'} component={Settings}/>

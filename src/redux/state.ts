@@ -1,3 +1,4 @@
+import { v1 } from "uuid";
 import {renderEntireTree} from "../render";
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -7,10 +8,12 @@ export type RootStateType = {
 export type DialogsPageType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
+    newMessageText: string
 }
 export type ProfilePageType = {
     imageLink: string
     posts: PostsType[]
+    newPostText: string
 }
 export type DialogsType = {
     id: string
@@ -50,7 +53,8 @@ export let state: RootStateType = {
             {id: '4', message: 'This is my third post!', likesCount: 1},
             {id: '5', message: 'This is my fourth post!', likesCount: 8},
             {id: '6', message: 'This is my fifth post!', likesCount: 155},
-        ]
+        ],
+        newPostText: 'Hello, i am Alexandr'
     },
     dialogsPage: {
         dialogs: [
@@ -66,6 +70,7 @@ export let state: RootStateType = {
             {id: '4', message: 'Yohohohoho!', myMessage: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'},
             {id: '5', message: 'You are narcoman!', myMessage: true, avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"}
         ],
+        newMessageText: ''
     },
     sidebar: {
         bestFriend: [
@@ -83,13 +88,35 @@ export let state: RootStateType = {
 
 //export type addPostType = () => void
 
-export const addPost= (addNewPost: string) => {
-    let newPost = {
-        id: '5',
-        message: addNewPost,
+console.log(state.profilePage.newPostText)
+
+export const addPost = () => {
+    const newPost: PostsType= {
+        id: v1(),
+        message: state.profilePage.newPostText,
         likesCount: 0
     }
-
     state.profilePage.posts.push(newPost)
+    state.profilePage.newPostText = ''
+    renderEntireTree(state)
+}
+export const addMessage = () => {
+    const newMessage: MessagesType = {
+        id: v1(),
+        message: state.dialogsPage.newMessageText,
+        myMessage: true,
+        avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+    }
+    state.dialogsPage.messages.push(newMessage)
+    state.dialogsPage.newMessageText = ''
+    renderEntireTree(state)
+}
+
+export const updateNewPostText = (newText: string) => {
+    state.profilePage.newPostText = newText
+    renderEntireTree(state)
+}
+export const updateNewMessageText = (newMessage: string) => {
+    state.dialogsPage.newMessageText = newMessage
     renderEntireTree(state)
 }
