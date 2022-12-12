@@ -1,16 +1,13 @@
-import React, {ChangeEvent, RefObject, useState} from "react";
+import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogItem} from "./DialogItem/DialogItem";
-import {DialogsType, MessagesType} from "../../redux/state";
+import {AllActionTypes, DialogsPageType} from "../../redux/state";
 
 
 type DialogsPropsType = {
-    dialogs: DialogsType[]
-    messages: MessagesType[]
-    newMessageText: string
-    addMessage: () => void
-    updateNewMessageText: (newMessage: string) => void
+    dialogsData: DialogsPageType
+    dispatch: (action: AllActionTypes) => void
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
@@ -18,19 +15,15 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
     //let [newMessage, setNewMessage] = useState('')
     //!!!written in the old: let newMessage: RefObject<HTMLTextAreaElement> = React.createRef()!!!
 
-    let dialogElement = props.dialogs.map(d => <DialogItem name={d.name} id={d.id} isActive={d.isActive} key={d.id} srcImg={d.avatar}/>)
+    let dialogElement = props.dialogsData.dialogs.map(d => <DialogItem name={d.name} id={d.id} isActive={d.isActive} key={d.id} srcImg={d.avatar}/>)
 
-    let messageElement = props.messages.map(m => <Message message={m.message} key={m.id} myMessage={m.myMessage} avatar={m.avatar}/>)
+    let messageElement = props.dialogsData.messages.map(m => <Message message={m.message} key={m.id} myMessage={m.myMessage} avatar={m.avatar}/>)
 
     const onClickHandler = () => {
-        // alert(newMessage)
-        // setNewMessage('')
-        //!!! writting in the old: alert(newMessage.current?.value)!!!
-        props.addMessage()
+        props.dispatch({type: "ADD-MESSAGE"})
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        //setNewMessage(e.currentTarget.value)
-        props.updateNewMessageText(e.currentTarget.value)
+        props.dispatch({type: "UPDATE-NEW-MESSAGE-TEXT", newMessage: e.currentTarget.value})
     }
 
 
@@ -45,7 +38,7 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                 <div>
 
                 </div>
-                <textarea value={props.newMessageText} onChange={onChangeHandler}></textarea>
+                <textarea value={props.dialogsData.newMessageText} onChange={onChangeHandler}></textarea>
                 {/* !!! writting in the old: <textarea ref={newMessage}></textarea>*/}!!!
                 <button onClick={onClickHandler}>Send message</button>
             </div>

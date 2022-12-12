@@ -1,4 +1,4 @@
-import { v1 } from "uuid";
+import {v1} from "uuid";
 
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -42,88 +42,159 @@ export type SidebarType = {
     bestFriend: BestFriendsType[]
 }
 
-let renderEntireTree = (state: any) => {
-    console.log("hello world")
+
+export type AddPostActionType = {
+    type: 'ADD-POST'
+}
+export type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    newText: string
+}
+export type AddMessageActionType = {
+    type: 'ADD-MESSAGE',
+}
+export type UpdateNewMessageActionType = {
+    type: 'UPDATE-NEW-MESSAGE-TEXT'
+    newMessage: string
 }
 
-export let state: RootStateType = {
-    profilePage: {
-        imageLink: "https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        posts: [
-            {id: '1', message: 'Hello! How are you?', likesCount: 15},
-            {id: '2', message: 'This is my first post!', likesCount: 11},
-            {id: '3', message: 'This is my second post!', likesCount: 15},
-            {id: '4', message: 'This is my third post!', likesCount: 1},
-            {id: '5', message: 'This is my fourth post!', likesCount: 8},
-            {id: '6', message: 'This is my fifth post!', likesCount: 155},
-        ],
-        newPostText: 'Hello, i am Alexandr'
+export type AllActionTypes =
+    AddPostActionType
+    | UpdateNewPostTextActionType
+    | AddMessageActionType
+    | UpdateNewMessageActionType
+
+export type StoreStateType = {
+    _state: RootStateType
+    subscriber: (observer: () => void) => void
+    _callSubscriber: () => void
+    getState: () => RootStateType
+    dispatch: (action: AllActionTypes) => void
+}
+
+export let store: StoreStateType = {
+    _state: {
+        profilePage: {
+            imageLink: "https://images.pexels.com/photos/3408744/pexels-photo-3408744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            posts: [
+                {id: '1', message: 'Hello! How are you?', likesCount: 15},
+                {id: '2', message: 'This is my first post!', likesCount: 11},
+                {id: '3', message: 'This is my second post!', likesCount: 15},
+                {id: '4', message: 'This is my third post!', likesCount: 1},
+                {id: '5', message: 'This is my fourth post!', likesCount: 8},
+                {id: '6', message: 'This is my fifth post!', likesCount: 155},
+            ],
+            newPostText: 'Hello, i am Alexandr'
+        },
+        dialogsPage: {
+            dialogs: [
+                {
+                    id: '1',
+                    name: 'Ilya',
+                    isActive: false,
+                    avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                },
+                {
+                    id: '2',
+                    name: 'Dima',
+                    isActive: true,
+                    avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                },
+                {id: '3', name: 'Karina', isActive: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'},
+                {id: '4', name: 'Kristina', isActive: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'}
+            ],
+            messages: [
+                {
+                    id: '1',
+                    message: 'Hello!',
+                    myMessage: true,
+                    avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                },
+                {
+                    id: '2',
+                    message: 'How are you?!',
+                    myMessage: true,
+                    avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                },
+                {id: '3', message: 'Thanks!', myMessage: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'},
+                {
+                    id: '4',
+                    message: 'Yohohohoho!',
+                    myMessage: false,
+                    avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'
+                },
+                {
+                    id: '5',
+                    message: 'You are narcoman!',
+                    myMessage: true,
+                    avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                }
+            ],
+            newMessageText: ''
+        },
+        sidebar: {
+            bestFriend: [
+                {
+                    id: '1', name: 'Karina', src: '/dialogs/3', imageUrl: "https://wallpapercave.com/wp/wp5082196.jpg"
+                },
+                {
+                    id: '2',
+                    name: 'Ilya',
+                    src: '/dialogs/1',
+                    imageUrl: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                },
+                {
+                    id: '3',
+                    name: 'Dima',
+                    src: '/dialogs/2',
+                    imageUrl: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                }
+            ]
+        }
     },
-    dialogsPage: {
-        dialogs: [
-            {id: '1', name: 'Ilya', isActive: false, avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"},
-            {id: '2', name: 'Dima', isActive: true, avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"},
-            {id: '3', name: 'Karina', isActive: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'},
-            {id: '4', name: 'Kristina', isActive: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'}
-        ],
-        messages: [
-            {id: '1', message: 'Hello!', myMessage: true, avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"},
-            {id: '2', message: 'How are you?!', myMessage: true, avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"},
-            {id: '3', message: 'Thanks!', myMessage: false, avatar:'https://wallpapercave.com/wp/wp5082196.jpg'},
-            {id: '4', message: 'Yohohohoho!', myMessage: false, avatar: 'https://wallpapercave.com/wp/wp5082196.jpg'},
-            {id: '5', message: 'You are narcoman!', myMessage: true, avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"}
-        ],
-        newMessageText: ''
+    _callSubscriber() {
+        console.log("state changed")
     },
-    sidebar: {
-        bestFriend: [
-            {
-                id: '1', name: 'Karina', src: '/dialogs/3', imageUrl: "https://wallpapercave.com/wp/wp5082196.jpg" },
-            {
-                id: '2', name: 'Ilya', src: '/dialogs/1', imageUrl: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
-            },
-            {
-                id: '3', name: 'Dima', src: '/dialogs/2', imageUrl: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+    subscriber(observer) {
+        this._callSubscriber = observer;
+    },
+    getState(): RootStateType {
+        return this._state
+    },
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            const newPost: PostsType = {
+                id: v1(),
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
             }
-        ]
-    }
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this._callSubscriber()
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.newText
+            this._callSubscriber()
+        } else if (action.type === 'ADD-MESSAGE') {
+            const newMessage: MessagesType = {
+                id: v1(),
+                message: this._state.dialogsPage.newMessageText,
+                myMessage: true,
+                avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+            }
+            this._state.dialogsPage.messages.push(newMessage)
+            this._state.dialogsPage.newMessageText = ''
+            this._callSubscriber()
+        } else if (action.type === 'UPDATE-NEW-MESSAGE-TEXT') {
+            this._state.dialogsPage.newMessageText = action.newMessage
+            this._callSubscriber()
+        } else {
+            this.getState()
+        }
+    },
 }
 
-//export type addPostType = () => void
+const ADD_POST = 'ADD-POST' // не сработала фича с константой
+export const addPostActionCreator = () => ({type: ADD_POST} as const)
 
-console.log(state.profilePage.newPostText)
-
-export const addPost = () => {
-    const newPost: PostsType= {
-        id: v1(),
-        message: state.profilePage.newPostText,
-        likesCount: 0
-    }
-    state.profilePage.posts.push(newPost)
-    state.profilePage.newPostText = ''
-    renderEntireTree(state)
-}
-export const addMessage = () => {
-    const newMessage: MessagesType = {
-        id: v1(),
-        message: state.dialogsPage.newMessageText,
-        myMessage: true,
-        avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
-    }
-    state.dialogsPage.messages.push(newMessage)
-    state.dialogsPage.newMessageText = ''
-    renderEntireTree(state)
-}
-
-export const updateNewPostText = (newText: string) => {
-    state.profilePage.newPostText = newText
-    renderEntireTree(state)
-}
-export const updateNewMessageText = (newMessage: string) => {
-    state.dialogsPage.newMessageText = newMessage
-    renderEntireTree(state)
-}
-
-export const subscriber = (observer: any) => {
-    renderEntireTree = observer;
-}
+const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT' // не сработала фича с константой
+export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
