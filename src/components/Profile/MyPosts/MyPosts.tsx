@@ -17,7 +17,7 @@ type MyPostPropsType = {
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
 
-    let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={p.likesCount}/>)
+    let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={ p.likesCount}/>)
 
     const onClickHandler = () => {
         //let action:AllActionTypes = {type: 'ADD-POST'};
