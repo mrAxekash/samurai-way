@@ -153,7 +153,7 @@ export let store: StoreStateType = {
                     id: '3',
                     name: 'Dima',
                     src: '/dialogs/2',
-                    imageUrl: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
+                    imageUrl: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:* "
                 }
             ]
         }
