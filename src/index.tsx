@@ -7,7 +7,6 @@ import App from "./App";
 
 
 export const renderEntireTree = () => {
-    console.log('I am rendered')
     return (ReactDOM.render(
             <BrowserRouter>
                 <App
