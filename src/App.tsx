@@ -11,7 +11,7 @@ import {Route} from "react-router-dom";
 import {
     AllActionTypes,
     RootStateType,
-} from "./redux/state";
+} from "./redux/store";
 
 type AppType = {
     state: RootStateType
@@ -19,6 +19,7 @@ type AppType = {
 }
 
 const App: React.FC<AppType> = (props) => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
+    debugger
     return (
         <div className={'app-wrapper'}>
             <Header/>

@@ -1,4 +1,11 @@
 import {v1} from "uuid";
+import {AddPostACType,  profile_Reducer, UpdateNewPostTextACType} from "./profile-reducer";
+import {
+    AddMessageACType,
+
+    dialogs_Reducer,
+    UpdateNewMessageACType,
+} from "./dialogs-reducer";
 
 export type RootStateType = {
     profilePage: ProfilePageType
@@ -42,28 +49,7 @@ export type SidebarType = {
     bestFriend: BestFriendsType[]
 }
 
-export type AddPostActionType = {
-    type: 'ADD-POST'
-}
-
-export type UpdateNewPostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    newText: string
-}
-
-export type AddMessageActionType = {
-    type: 'ADD-MESSAGE',
-}
-export type UpdateNewMessageActionType = {
-    type: 'UPDATE-NEW-MESSAGE-TEXT'
-    newMessage: string
-}
-
-export type AllActionTypes =
-    AddPostActionType
-    | UpdateNewPostTextActionType
-    | AddMessageActionType
-    | UpdateNewMessageActionType
+export type AllActionTypes = AddMessageACType | UpdateNewMessageACType | AddPostACType | UpdateNewPostTextACType // типизация приходит из reducer-ов, и тут мы её соединяем, и передаём дальше в методе dispatch
 
 export type StoreStateType = {
     _state: RootStateType
@@ -73,10 +59,10 @@ export type StoreStateType = {
     dispatch: (action: AllActionTypes) => void
 }
 
-const ADD_POST = 'ADD-POST' // не сработала фича с константой
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT' // не сработала фича с константой
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
-const ADD_MESSAGE = 'ADD-MESSAGE'
+// const ADD_POST = 'ADD-POST' // не сработала фича с константой
+// const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT' // не сработала фича с константой
+// const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
+// const ADD_MESSAGE = 'ADD-MESSAGE'
 
 export let store: StoreStateType = {
     _state: {
@@ -90,7 +76,7 @@ export let store: StoreStateType = {
                 {id: '5', message: 'This is my fourth post!', likesCount: 8},
                 {id: '6', message: 'This is my fifth post!', likesCount: 155},
             ],
-            newPostText: 'Hello, i am Alexandr'
+            newPostText: ''
         },
         dialogsPage: {
             dialogs: [
@@ -168,40 +154,19 @@ export let store: StoreStateType = {
         return this._state
     },
     dispatch(action) {
-        if (action.type === ADD_POST) {
-            const newPost: PostsType = {
-                id: v1(),
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._callSubscriber()
-        } else if (action.type === UPDATE_NEW_POST_TEXT) {
-            this._state.profilePage.newPostText = action.newText
-            this._callSubscriber()
-        } else if (action.type === ADD_MESSAGE) {
-            const newMessage: MessagesType = {
-                id: v1(),
-                message: this._state.dialogsPage.newMessageText,
-                myMessage: true,
-                avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._state.dialogsPage.newMessageText = ''
-            this._callSubscriber()
-        } else if (action.type === UPDATE_NEW_MESSAGE_TEXT) {
-            this._state.dialogsPage.newMessageText = action.newMessage
-            this._callSubscriber()
-        } else {
-            this.getState()
-        }
+        profile_Reducer(this._state.profilePage, action)
+        dialogs_Reducer(this._state.dialogsPage, action)
+        this._callSubscriber()
     },
 }
 
 // функции для создания Action. ОБЯЗАТЕЛЬНО НУЖНО В КОНЦЕ СОЗДАНИЯ ACTION СТАВИТЬ AS CONST!!!! Это для создания константы. Если не будет константа, то диспатч не отреагирует, и выдаст ошибку!!!!!
-export const addPostActionCreator = () => ({type: ADD_POST} as const)
-export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
-export const addMessageAC = () => ({type: ADD_MESSAGE} as const)
-export const updateNewMessageAC = (newMessage: string) => ({type: UPDATE_NEW_MESSAGE_TEXT, newMessage} as const)
-    // пример технического английского: updateNewMessageBodyCreator - создатель обновления нового сообщения тела, т.к. newMessage, body, creator - это существительные, то читается от последнего существительного, и потом идём читать в начало.
+
+
+// export const addPostActionCreator = () => ({type: ADD_POST} as const)
+// export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
+
+
+// export const addMessageAC = () => ({type: ADD_MESSAGE} as const)
+// export const updateNewMessageAC = (newMessage: string) => ({type: UPDATE_NEW_MESSAGE_TEXT, newMessage} as const)
+// пример технического английского: updateNewMessageBodyCreator - создатель обновления нового сообщения тела, т.к. newMessage, body, creator - это существительные, то читается от последнего существительного, и потом идём читать в начало.
