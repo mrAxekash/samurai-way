@@ -8,7 +8,9 @@ import {addMessageAC, updateNewMessageAC} from "../../redux/dialogs-reducer";
 
 type DialogsPropsType = {
     dialogsData: DialogsPageType
-    dispatch: (action: AllActionTypes) => void
+    addSendMessage: () => void
+    addNewMessage: (newMessage: string) => void
+
 }
 
 export const Dialogs: React.FC<DialogsPropsType> = (props) => {
@@ -28,12 +30,10 @@ export const Dialogs: React.FC<DialogsPropsType> = (props) => {
                                                                       avatar={m.avatar}/>)
 
     const onSendMessageClickHandler = () => {
-        let action = addMessageAC()
-        props.dispatch(action)
+        props.addSendMessage()
     }
     const onNewMessageChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let action = updateNewMessageAC(e.currentTarget.value)
-        props.dispatch(action)
+        props.addNewMessage(e.currentTarget.value)
     }
 
 

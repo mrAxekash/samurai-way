@@ -12,6 +12,7 @@ import {
     AllActionTypes,
     RootStateType,
 } from "./redux/store";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppType = {
     state: RootStateType
@@ -31,7 +32,7 @@ const App: React.FC<AppType> = (props) => { /*функция-компонент�
                        />}/>
                 {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                 <Route exact path={'/dialogs'}
-                       render={() => <Dialogs
+                       render={() => <DialogsContainer
                            dialogsData={props.state.dialogsPage}
                            dispatch={props.dispatch}
                        />}/>
