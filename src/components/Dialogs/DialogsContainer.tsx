@@ -5,25 +5,35 @@ import {DialogItem} from "./DialogItem/DialogItem";
 import {AllActionTypes, DialogsPageType} from "../../redux/store";
 import {addMessageAC, updateNewMessageAC} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
+import {StoreContext} from "../../StoreContext";
+import { store } from "../../redux/redux-store";
 
 
-type DialogsPropsType = {
-    dialogsData: DialogsPageType
-    dispatch: (action: AllActionTypes) => void
-}
+// type DialogsPropsType = {
+//     store: any
+// }
 
-export const DialogsContainer: React.FC<DialogsPropsType> = (props) => {
+export const DialogsContainer = () => {
 
-    const addSendMessage = () => {
-        let action = addMessageAC()
-        props.dispatch(action)
-    }
-    const addNewMessage = (newMessage: string) => {
-        let action = updateNewMessageAC(newMessage)
-        props.dispatch(action)
-    }
-
-    return (
-        <Dialogs dialogsData={props.dialogsData} addSendMessage={addSendMessage} addNewMessage={addNewMessage}/>
+    return (<StoreContext.Consumer>
+            {(store: any) => {
+                let state = store.getState()
+                    const addSendMessage = () => {
+                        let action = addMessageAC()
+                        store.dispatch(action)
+                    }
+                    const addNewMessage = (newMessage: string) => {
+                        let action = updateNewMessageAC(newMessage)
+                        store.dispatch(action)
+                    }
+                    return (
+                        <Dialogs
+                            dialogsData={state.dialogsPage}
+                            addSendMessage={addSendMessage}
+                            addNewMessage={addNewMessage}/>
+                    )
+                }
+            }
+        </StoreContext.Consumer>
     )
 }

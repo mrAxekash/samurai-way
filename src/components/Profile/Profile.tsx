@@ -2,24 +2,26 @@ import React from "react";
 import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {AllActionTypes, ProfilePageType} from "../../redux/store";
-import { MyPostsContainer } from "./MyPosts/MyPostsContainer";
+import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
+import {useSelector} from "react-redux";
+import {RootReducersType} from "../../redux/redux-store";
 
+// postsData={props.profileState.posts}
+// dispatch={props.dispatch}
+// newPostText={props.profileState.newPostText}
 
+// type ProfilePropsType = {
+//     store: any
+// }
 
-type ProfilePropsType = {
-    profileState: ProfilePageType
-    dispatch: (action: AllActionTypes) => void
-}
+export const Profile = () => {
 
-export const Profile = (props: ProfilePropsType) => {
+    const profilePage = useSelector<RootReducersType, ProfilePageType>(state => state.profilePage)
 
     return (
         <div>
-            <ProfileInfo imageLink={props.profileState.imageLink}/>
-            <MyPostsContainer postsData={props.profileState.posts}
-                     dispatch={props.dispatch}
-                     newPostText={props.profileState.newPostText}
-            />
+            <ProfileInfo imageLink={profilePage.imageLink}/>
+            <MyPostsContainer />
         </div>
     )
 }

@@ -9,33 +9,39 @@ import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {Route} from "react-router-dom";
 import {
-    AllActionTypes,
-    RootStateType,
+    AllActionTypes, ProfilePageType,
+    RootStateType, SidebarType, StoreStateType,
 } from "./redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {RootReducersType, store} from "./redux/redux-store";
+import {useSelector} from "react-redux";
+import {StoreContext} from "./StoreContext";
 
-type AppType = {
-    state: RootStateType
-    dispatch: (action: AllActionTypes) => void
-}
+// type AppType = {
+//     state: RootStateType
+//     dispatch: (action: AllActionTypes) => void
+// }
+// type AppType = {
+//     store: StoreStateType
+// }
 
-const App: React.FC<AppType> = (props) => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
-    debugger
+const App = () => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
+    console.log('App render')
+    const sidebarState = useSelector<RootReducersType, SidebarType>(state => state.sidebar)
+
     return (
         <div className={'app-wrapper'}>
             <Header/>
-            <Navbar friends={props.state.sidebar.bestFriend}/>
+
+            <Navbar friends={sidebarState.bestFriend}/>
             <div className={'app-wrapper-content'}>
                 <Route exact path={'/profile'}
-                       render={() => <Profile profileState={props.state.profilePage}
-                                              dispatch={props.dispatch}
-                       />}/>
+                       render={() => <Profile/>}
+                />
                 {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                 <Route exact path={'/dialogs'}
-                       render={() => <DialogsContainer
-                           dialogsData={props.state.dialogsPage}
-                           dispatch={props.dispatch}
-                       />}/>
+                       render={() => <DialogsContainer />}
+                />
                 <Route exact path={'/news'} component={News}/>
                 <Route exact path={'/music'} component={Music}/>
                 <Route exact path={'/settings'} component={Settings}/>
