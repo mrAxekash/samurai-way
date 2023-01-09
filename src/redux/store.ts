@@ -7,45 +7,45 @@ import {
     UpdateNewMessageACType,
 } from "./dialogs-reducer";
 
-export type RootStateType = {
+type RootStateType = {
     profilePage: ProfilePageType
     dialogsPage: DialogsPageType
     sidebar: SidebarType
 }
-export type DialogsPageType = {
+type DialogsPageType = {
     dialogs: DialogsType[]
     messages: MessagesType[]
     newMessageText: string
 }
-export type ProfilePageType = {
+type ProfilePageType = {
     imageLink: string
     posts: PostsType[]
     newPostText: string
 }
-export type DialogsType = {
+type DialogsType = {
     id: string
     name: string
     isActive: boolean
     avatar: string
 }
-export type MessagesType = {
+type MessagesType = {
     id: string
     message: string
     myMessage: boolean
     avatar: string
 }
-export type PostsType = {
+type PostsType = {
     id: string
     message: string
     likesCount: number
 }
-export type BestFriendsType = {
+type BestFriendsType = {
     id: string
     name: string
     src: string
     imageUrl: string
 }
-export type SidebarType = {
+type SidebarType = {
     bestFriend: BestFriendsType[]
 }
 

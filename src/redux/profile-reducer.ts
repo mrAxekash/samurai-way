@@ -1,6 +1,18 @@
 import React from 'react'
-import {AllActionTypes, PostsType, ProfilePageType} from "./store";
+import {AllActionTypes} from "./store";
 import {v1} from "uuid";
+
+export type ProfilePageType = {
+    imageLink: string
+    posts: PostsType[]
+    newPostText: string
+}
+export type PostsType = {
+    id: string
+    message: string
+    likesCount: number
+}
+
 
 const ADD_POST = 'ADD-POST' // не сработала фича с константой
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT' // не сработала фича с константой
@@ -18,7 +30,7 @@ let initialState: ProfilePageType = {
     newPostText: ''
 }
 
-export const profile_Reducer = (state: ProfilePageType = initialState, action: AllActionTypes) => {
+export const profile_Reducer = (state: ProfilePageType = initialState, action: AllActionTypes): ProfilePageType => {
 
     switch (action.type) {
         case ADD_POST: {

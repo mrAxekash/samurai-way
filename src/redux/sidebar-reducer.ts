@@ -1,5 +1,16 @@
 import React from 'react'
-import {SidebarType} from "./store";
+
+export type SidebarType = {
+    bestFriend: BestFriendsType[]
+}
+export type BestFriendsType = {
+    id: string
+    name: string
+    src: string
+    imageUrl: string
+}
+
+
 
 let initialState: SidebarType = {
     bestFriend: [
@@ -21,6 +32,6 @@ let initialState: SidebarType = {
     ]
 }
 
-export const sidebar_Reducer = (state  = initialState, action: any) => {
+export const sidebar_Reducer = (state: SidebarType  = initialState, action: any): SidebarType => {
     return state
 }

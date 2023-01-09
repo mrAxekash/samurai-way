@@ -2,7 +2,8 @@ import React from "react";
 import styles from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 import {Sidebar} from "./Sidebar";
-import {BestFriendsType} from "../../redux/store";
+import {BestFriendsType} from "../../redux/sidebar-reducer";
+
 
 
 type NavBarType = {

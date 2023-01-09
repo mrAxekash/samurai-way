@@ -1,22 +1,22 @@
 import React, {ChangeEvent} from "react";
 import classes from './MyPosts.module.css';
 import {Post} from "./Post/Post";
+import {PostsContainerType} from "./MyPostsContainer";
 
-type MyPostsType = {
-    postsData: Array<MyPostPropsType>
-    onPostChange: (newMessage: string) => void
-    addPost: () => void
-    value: string
-}
+// type MyPostsType = {
+//     postsData: Array<MyPostPropsType>
+//     onPostChange: (newMessage: string) => void
+//     addPost: () => void
+//     value: string
+// }
+//
+// type MyPostPropsType = {
+//     id: string
+//     message: string
+//     likesCount: number
+// }
 
-type MyPostPropsType = {
-    id: string
-    message: string
-    likesCount: number
-}
-
-export const MyPosts: React.FC<MyPostsType> = (props) => {
-
+export const MyPosts: React.FC<PostsContainerType> = (props) => {
     let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={ p.likesCount}/>)
 
     const onClickHandler = () => {

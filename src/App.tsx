@@ -3,19 +3,14 @@ import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
-import {Dialogs} from "./components/Dialogs/Dialogs";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
 import {Route} from "react-router-dom";
-import {
-    AllActionTypes, ProfilePageType,
-    RootStateType, SidebarType, StoreStateType,
-} from "./redux/store";
-import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {RootReducersType, store} from "./redux/redux-store";
+import {RootReducersType} from "./redux/redux-store";
 import {useSelector} from "react-redux";
-import {StoreContext} from "./StoreContext";
+import { DialogsContainer } from './components/Dialogs/DialogsContainer';
+import { SidebarType } from './redux/sidebar-reducer';
 
 // type AppType = {
 //     state: RootStateType
@@ -26,7 +21,6 @@ import {StoreContext} from "./StoreContext";
 // }
 
 const App = () => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
-    console.log('App render')
     const sidebarState = useSelector<RootReducersType, SidebarType>(state => state.sidebar)
 
     return (
@@ -40,7 +34,7 @@ const App = () => { /*функция-компонента, которая воз
                 />
                 {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                 <Route exact path={'/dialogs'}
-                       render={() => <DialogsContainer />}
+                       render={() => <DialogsContainer/>}
                 />
                 <Route exact path={'/news'} component={News}/>
                 <Route exact path={'/music'} component={Music}/>

@@ -1,10 +1,9 @@
 import React from "react";
-import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {AllActionTypes, ProfilePageType} from "../../redux/store";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {useSelector} from "react-redux";
 import {RootReducersType} from "../../redux/redux-store";
+import {ProfilePageType} from "../../redux/profile-reducer";
 
 // postsData={props.profileState.posts}
 // dispatch={props.dispatch}

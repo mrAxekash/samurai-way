@@ -5,18 +5,15 @@ import {BrowserRouter} from "react-router-dom";
 import App from "./App";
 import {store} from "./redux/redux-store";
 import {Provider} from "react-redux";
-import {ProviderContext, StoreContext} from "./StoreContext";
 
 
 export const renderEntireTree = () => {
     console.log('rerender entiteTree')
     return (ReactDOM.render(
             <BrowserRouter>
-                <ProviderContext store={store}>
-                    <Provider store={store}>
-                        <App />
-                    </Provider>
-                </ProviderContext>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
             </BrowserRouter>, document.getElementById('root')
         )
     )
@@ -24,14 +21,3 @@ export const renderEntireTree = () => {
 
 renderEntireTree()
 store.subscribe(renderEntireTree)
-
-
-//
-//
-
-// ReactDOM.render(
-//     <BrowserRouter>
-//         <App state={state} addPost={addPost}/>
-//     </BrowserRouter>,
-//     document.getElementById('root')
-// );
