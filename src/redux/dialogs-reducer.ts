@@ -79,13 +79,16 @@ export const dialogs_Reducer = (state: DialogsPageType = initialState, action: A
                 myMessage: true,
                 avatar: "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1981871a-1560281723.jpg?crop=1.00xw:0.749xh;0,0.183xh&resize=768:*"
             }
-            state.messages = [...state.messages, newMessage]
-            state.newMessageText = ''
-            return state
+            // state.messages = [...state.messages, newMessage]
+            // state.newMessageText = ''
+            // return state
+            return {...state, messages: [...state.messages, newMessage]}
         }
         case UPDATE_NEW_MESSAGE_TEXT: {
-            state.newMessageText = action.newMessage || ''
-            return state
+            // state.newMessageText = action.newMessage || ''
+            // return state
+
+            return {...state, newMessageText: action.newMessage || '' }
         }
         default:
             return state

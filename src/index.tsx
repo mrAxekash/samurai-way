@@ -20,4 +20,4 @@ export const renderEntireTree = () => {
 }
 
 renderEntireTree()
-store.subscribe(renderEntireTree)
+// store.subscribe(renderEntireTree)
