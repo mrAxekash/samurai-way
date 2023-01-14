@@ -39,15 +39,9 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
                 message: state.newPostText,
                 likesCount: 0
             }
-            // let newState = {...state}
-            // newState.posts = [...state.posts, newPost]
-            // return newState
-            return {...state, posts: [...state.posts, newPost]}
+            return {...state, posts: [...state.posts, newPost], newPostText: ''}
         }
         case UPDATE_NEW_POST_TEXT: {
-            // let newState = {...state}
-            // newState.newPostText = action?.newText || ''
-            // return newState
             return {...state, newPostText: state.newPostText = action?.newText || ''}
         }
         default:
