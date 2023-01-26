@@ -6,26 +6,24 @@ import axios from "axios";
 import {RootReducersType} from "../../redux/redux-store";
 import {UserStateType} from "../../redux/users-reducer";
 
- class UsersClass extends React.Component<AllUsersStateType> {
+class UsersClass extends React.Component<AllUsersStateType> {
 
-    getUsers=()=> {
-     console.log(this.props)
-        if (this.props.users.users.length === 0) {
-            axios.get('https://social-network.samuraijs.com/api/1.0/users')
-                .then((response => {
-                            this.props.setUsers(response.data.items)
-                        }
-                    )
+    componentDidMount() {
+        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+            .then((response => {
+                        this.props.setUsers(response.data.items)
+                    }
                 )
-        }
+            )
     }
+
 
     render() {
         return (
             <div>
                 <h2>Users</h2>
 
-                <button onClick={this.getUsers}>Get users</button>
+                {/*<button onClick={this.getUsers}>Get users</button>*/}
                 {this.props.users?.users.map((u: UserStateType) => {
                     return (
                         <div key={u.id}>
@@ -65,4 +63,5 @@ import {UserStateType} from "../../redux/users-reducer";
         );
     }
 }
+
 export default UsersClass
