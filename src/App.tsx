@@ -13,6 +13,7 @@ import { DialogsContainer } from './components/Dialogs/DialogsContainer';
 import { SidebarType } from './redux/sidebar-reducer';
 import {UsersContainer} from "./components/Users/UsersContainer";
 
+
 // type AppType = {
 //     state: RootStateType
 //     dispatch: (action: AllActionTypes) => void
@@ -37,7 +38,7 @@ const App = () => { /*функция-компонента, которая воз
                 <Route exact path={'/dialogs'}
                        render={() => <DialogsContainer/>}
                 />
-                <Route exact path={'/users'} render={() => <UsersContainer /> } />
+                <Route exact path={'/users'} component={UsersContainer} />
                 <Route exact path={'/news'} component={News}/>
                 <Route exact path={'/music'} component={Music}/>
                 <Route exact path={'/settings'} component={Settings}/>

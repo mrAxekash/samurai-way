@@ -1,11 +1,16 @@
 export type InitialStateType = {
     users: UserStateType[]
 }
+export type PhotosUserType = {
+    small: string | undefined
+    large: string | undefined
+}
+
 export type UserStateType = {
     id: number
-    avatar: string
+    photos: PhotosUserType
     followed: boolean
-    fullname: string
+    name: string
     location: LocationUserType
     status: string
 }
@@ -15,12 +20,7 @@ type LocationUserType = {
 }
 
 let initialState: InitialStateType = {
-    users: [
-     // { id: 1, avatar: 'https://www.vokrug.tv/pic/product/b/5/d/1/b5d17062ea05487b643b631114a09845.jpeg', followed: true, fullname: 'Alexandr', location: {country: 'Belarus', city: 'Minsk'}, status: 'I am a boss' },
-     // { id: 2, avatar: 'https://www.vokrug.tv/pic/product/b/5/d/1/b5d17062ea05487b643b631114a09845.jpeg', followed: true, fullname: 'Karina', location: {country: 'Belarus', city: 'Minsk'}, status: 'I am a boss too' },
-     // { id: 3, avatar: 'https://www.vokrug.tv/pic/product/b/5/d/1/b5d17062ea05487b643b631114a09845.jpeg', followed: false, fullname: 'Ilya', location: {country: 'Belarus', city: 'Minsk'}, status: 'I am a boss too' },
-     // { id: 4, avatar: 'https://www.vokrug.tv/pic/product/b/5/d/1/b5d17062ea05487b643b631114a09845.jpeg', followed: false, fullname: 'Dmitry', location: {country: 'Poland', city: 'Varshava'}, status: 'I am a boss too' }
-    ]
+    users: [] as UserStateType[]
 }
 
 export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType
