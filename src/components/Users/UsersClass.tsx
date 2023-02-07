@@ -9,7 +9,19 @@ import {UserStateType} from "../../redux/users-reducer";
 class UsersClass extends React.Component<AllUsersStateType> {
 
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`)
+            .then((response => {
+                        this.props.setUsers(response.data.items)
+                        this.props.setTotalUsersCount(response.data.totalCount)
+                    }
+                )
+            )
+
+    }
+
+    onPageChanged = (p: number) => {
+        this.props.changeUsersPage(p)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${p}`)
             .then((response => {
                         this.props.setUsers(response.data.items)
                     }
@@ -17,10 +29,22 @@ class UsersClass extends React.Component<AllUsersStateType> {
             )
     }
 
-
     render() {
+        let pagesCount: number = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+
+        let pages: number[] = []
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+
         return (
             <div>
+                { pages.map((p) => {
+                    return (
+                        <span key={p} className={this.props.currentPage === p ? style.selectedPage : ''} onClick={() => {this.onPageChanged(p)} }>{p}</span>
+                    )
+                })}
+
                 <h2>Users</h2>
 
                 {/*<button onClick={this.getUsers}>Get users</button>*/}
@@ -65,3 +89,5 @@ class UsersClass extends React.Component<AllUsersStateType> {
 }
 
 export default UsersClass
+
+

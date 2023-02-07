@@ -1,5 +1,8 @@
 export type InitialStateType = {
     users: UserStateType[]
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
 }
 export type PhotosUserType = {
     small: string | undefined
@@ -20,10 +23,13 @@ type LocationUserType = {
 }
 
 let initialState: InitialStateType = {
-    users: [] as UserStateType[]
+    users: [] as UserStateType[],
+    pageSize: 100,
+    totalUsersCount: 0,
+    currentPage: 2
 }
 
-export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType
+export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType
 
 type FollowACType = ReturnType<typeof FollowAC>
 export const FollowAC = (userID: number) => {
@@ -55,6 +61,25 @@ export const SetUsersAC = (users: UserStateType[]) => {
     } as const
 }
 
+type SetChangeUsersPageACType = ReturnType<typeof SetChangeUsersPageAC>
+export const SetChangeUsersPageAC = (newUsersPage: number) => {
+    return {
+        type: 'CHANGE-USERS-PAGE',
+        payload: {
+            newUsersPage
+        }
+    } as const
+}
+
+type SetTotalUsersCountType = ReturnType<typeof SetTotalUsersCountAC>
+export const SetTotalUsersCountAC = (totalUsersCount: number) => {
+    return {
+        type: 'SET-TOTAL-USERS-COUNT',
+        payload: {
+            totalUsersCount
+        }
+    } as const
+}
 export const users_Reducer = (state: InitialStateType = initialState, action: AllUsersType):InitialStateType  => {
     switch (action.type) {
         case 'FOLLOW': {
@@ -66,6 +91,12 @@ export const users_Reducer = (state: InitialStateType = initialState, action: Al
         case 'SET-USERS': {
 
             return {...state, users: action.payload.users}
+        }
+        case 'CHANGE-USERS-PAGE': {
+            return {...state, currentPage: action.payload.newUsersPage}
+        }
+        case 'SET-TOTAL-USERS-COUNT': {
+            return {...state, totalUsersCount: action.payload.totalUsersCount}
         }
         default: {
             return state
