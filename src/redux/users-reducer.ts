@@ -26,7 +26,7 @@ let initialState: InitialStateType = {
     users: [] as UserStateType[],
     pageSize: 100,
     totalUsersCount: 0,
-    currentPage: 2
+    currentPage: 1
 }
 
 export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType

@@ -1,48 +1,35 @@
-import * as React from 'react';
+import {AllUsersStateType} from "./UsersContainer";
 import style from './Users.module.css'
-import {UserStateType} from "../../redux/users-reducer";
-import img from "./img/pngtree-user-vector-avatar-png-image_1541962.jpg";
+import axios from "axios";
+import img from './img/pngtree-user-vector-avatar-png-image_1541962.jpg'
 
-type Props = {
-    totalUsersCount: number
-    pageSize: number
-    currentPage: number
-    users: UserStateType[]
-    onPageChanged: (page: number) => void
-    follow: (userId: number) => void
-    unfollow: (userId: number) => void
-};
+export const UsersFunctionComponent: React.FC<AllUsersStateType> = (props) => {
 
-export const Users = (props: Props) => {
-
-    let pagesCount: number = Math.ceil(props.totalUsersCount / props.pageSize)
-
-    let pages: number[] = []
-    for (let i = 1; i <= pagesCount; i++) {
-        pages.push(i)
+    const getUsers = () => {
+        if (props.users.users.length === 0) {
+            const promise: any = axios.get('https://social-network.samuraijs.com/api/1.0/users')
+                .then((response => {
+                        console.log(response.data.items)
+                        props.setUsers(response.data.items)
+                    })
+                )
+        }
     }
+
 
     return (
         <div>
-            {pages.map((p) => {
-                return (
-                    <span key={p} className={props.currentPage === p ? style.selectedPage : ''} onClick={() => {
-                        props.onPageChanged(p)
-                    }}>{p}</span>
-                )
-            })}
-
             <h2>Users</h2>
 
-            {/*<button onClick={this.getUsers}>Get users</button>*/}
-            {props.users.map((u: UserStateType) => {
+            <button onClick={getUsers}>Get users</button>
+
+            {props.users.users.map(u => {
                 return (
                     <div key={u.id}>
                         <div className={style.usersContainer}>
                             <div>
                                 <div>
-                                    <img src={u.photos.small === null ? img : u.photos.small} alt="avatar"
-                                         className={style.usersAvatar}/>
+                                    <img src={img} alt="avatar" className={style.usersAvatar}/>
                                 </div>
                                 {u.followed ?
                                     <button onClick={() => {
