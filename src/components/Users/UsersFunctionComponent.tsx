@@ -15,8 +15,6 @@ export const UsersFunctionComponent: React.FC<AllUsersStateType> = (props) => {
                 )
         }
     }
-
-
     return (
         <div>
             <h2>Users</h2>

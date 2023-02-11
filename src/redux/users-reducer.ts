@@ -3,6 +3,7 @@ export type InitialStateType = {
     pageSize: number
     totalUsersCount: number
     currentPage: number
+    isFetching: boolean
 }
 export type PhotosUserType = {
     small: string | undefined
@@ -26,10 +27,11 @@ let initialState: InitialStateType = {
     users: [] as UserStateType[],
     pageSize: 100,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 }
 
-export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType
+export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType | IsFetchingACType
 
 type FollowACType = ReturnType<typeof FollowAC>
 export const FollowAC = (userID: number) => {
@@ -80,6 +82,17 @@ export const SetTotalUsersCountAC = (totalUsersCount: number) => {
         }
     } as const
 }
+
+type IsFetchingACType = ReturnType<typeof IsFetchingAC>
+export const IsFetchingAC = (fetching: boolean) => {
+    return {
+        type: 'CHANGE-FETCHING',
+        payload: {
+            fetching
+        }
+    } as const
+}
+
 export const users_Reducer = (state: InitialStateType = initialState, action: AllUsersType):InitialStateType  => {
     switch (action.type) {
         case 'FOLLOW': {
@@ -97,6 +110,9 @@ export const users_Reducer = (state: InitialStateType = initialState, action: Al
         }
         case 'SET-TOTAL-USERS-COUNT': {
             return {...state, totalUsersCount: action.payload.totalUsersCount}
+        }
+        case "CHANGE-FETCHING": {
+            return {...state, isFetching: action.payload.fetching}
         }
         default: {
             return state

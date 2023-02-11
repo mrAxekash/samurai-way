@@ -2,11 +2,14 @@ import * as React from 'react';
 import style from './Users.module.css'
 import {UserStateType} from "../../redux/users-reducer";
 import img from "./img/pngtree-user-vector-avatar-png-image_1541962.jpg";
+import preloader from './../../Spinner-2.gif'
+import {Preloader} from "../common/preloader/Preloader";
 
 type Props = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
+    isFetching: boolean
     users: UserStateType[]
     onPageChanged: (page: number) => void
     follow: (userId: number) => void
@@ -24,6 +27,8 @@ export const Users = (props: Props) => {
 
     return (
         <div>
+            {props.isFetching ?  <Preloader/> : null}
+
             {pages.map((p) => {
                 return (
                     <span key={p} className={props.currentPage === p ? style.selectedPage : ''} onClick={() => {
