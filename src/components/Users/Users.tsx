@@ -2,7 +2,6 @@ import * as React from 'react';
 import style from './Users.module.css'
 import {UserStateType} from "../../redux/users-reducer";
 import img from "./img/pngtree-user-vector-avatar-png-image_1541962.jpg";
-import preloader from './../../Spinner-2.gif'
 import {Preloader} from "../common/preloader/Preloader";
 
 type Props = {

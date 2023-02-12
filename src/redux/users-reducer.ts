@@ -33,8 +33,8 @@ let initialState: InitialStateType = {
 
 export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType | IsFetchingACType
 
-type FollowACType = ReturnType<typeof FollowAC>
-export const FollowAC = (userID: number) => {
+type FollowACType = ReturnType<typeof followAC>
+export const followAC = (userID: number) => {
     return {
         type: 'FOLLOW',
         payload: {
@@ -43,8 +43,8 @@ export const FollowAC = (userID: number) => {
     } as const
 }
 
-type UnfollowACType = ReturnType<typeof UnfollowAC>
-export const UnfollowAC = (userID: number) => {
+type UnfollowACType = ReturnType<typeof unfollowAC>
+export const unfollowAC = (userID: number) => {
     return {
         type: 'UNFOLLOW',
         payload: {
@@ -53,8 +53,8 @@ export const UnfollowAC = (userID: number) => {
     } as const
 }
 
-type SetUsersACType = ReturnType<typeof SetUsersAC>
-export const SetUsersAC = (users: UserStateType[]) => {
+type SetUsersACType = ReturnType<typeof setUsersAC>
+export const setUsersAC = (users: UserStateType[]) => {
     return {
         type: 'SET-USERS',
         payload: {
@@ -63,8 +63,8 @@ export const SetUsersAC = (users: UserStateType[]) => {
     } as const
 }
 
-type SetChangeUsersPageACType = ReturnType<typeof SetChangeUsersPageAC>
-export const SetChangeUsersPageAC = (newUsersPage: number) => {
+type SetChangeUsersPageACType = ReturnType<typeof setChangeUsersPageAC>
+export const setChangeUsersPageAC = (newUsersPage: number) => {
     return {
         type: 'CHANGE-USERS-PAGE',
         payload: {
@@ -73,8 +73,8 @@ export const SetChangeUsersPageAC = (newUsersPage: number) => {
     } as const
 }
 
-type SetTotalUsersCountType = ReturnType<typeof SetTotalUsersCountAC>
-export const SetTotalUsersCountAC = (totalUsersCount: number) => {
+type SetTotalUsersCountType = ReturnType<typeof setTotalUsersCountAC>
+export const setTotalUsersCountAC = (totalUsersCount: number) => {
     return {
         type: 'SET-TOTAL-USERS-COUNT',
         payload: {
@@ -83,8 +83,8 @@ export const SetTotalUsersCountAC = (totalUsersCount: number) => {
     } as const
 }
 
-type IsFetchingACType = ReturnType<typeof IsFetchingAC>
-export const IsFetchingAC = (fetching: boolean) => {
+type IsFetchingACType = ReturnType<typeof isFetchingAC>
+export const isFetchingAC = (fetching: boolean) => {
     return {
         type: 'CHANGE-FETCHING',
         payload: {
