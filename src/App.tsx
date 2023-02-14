@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import {Header} from "./components/Header/Header";
 import {Navbar} from "./components/Navbar/Navbar";
-import {Profile} from "./components/Profile/Profile";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
@@ -12,6 +11,7 @@ import {useSelector} from "react-redux";
 import { DialogsContainer } from './components/Dialogs/DialogsContainer';
 import { SidebarType } from './redux/sidebar-reducer';
 import {UsersContainer} from "./components/Users/UsersContainer";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 
 
 // type AppType = {
@@ -31,8 +31,8 @@ const App = () => { /*функция-компонента, которая воз
 
             <Navbar friends={sidebarState.bestFriend}/>
             <div className={'app-wrapper-content'}>
-                <Route exact path={'/profile'}
-                       render={() => <Profile/>}
+                <Route path={'/profile'}
+                       component={ProfileContainer}
                 />
                 {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                 <Route exact path={'/dialogs'}

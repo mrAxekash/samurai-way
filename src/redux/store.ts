@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {AddPostACType,  profile_Reducer, UpdateNewPostTextACType} from "./profile-reducer";
+import {AddPostACType, profile_Reducer, setUsersACType, UpdateNewPostTextACType} from "./profile-reducer";
 import {
     AddMessageACType,
 
@@ -154,7 +154,7 @@ export let store: StoreStateType = {
         return this._state
     },
     dispatch(action) {
-        profile_Reducer(this._state.profilePage, action)
+        //profile_Reducer(this._state.profilePage, action)
         dialogs_Reducer(this._state.dialogsPage, action)
         this._callSubscriber()
     },

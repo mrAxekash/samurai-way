@@ -4,22 +4,15 @@ import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
 import {useSelector} from "react-redux";
 import {RootReducersType} from "../../redux/redux-store";
 import {ProfilePageType} from "../../redux/profile-reducer";
+import {Preloader} from "../common/preloader/Preloader";
 
-// postsData={props.profileState.posts}
-// dispatch={props.dispatch}
-// newPostText={props.profileState.newPostText}
 
-// type ProfilePropsType = {
-//     store: any
-// }
-
-export const Profile = () => {
-
-    const profilePage = useSelector<RootReducersType, ProfilePageType>(state => state.profilePage)
-
+export const Profile = (props: ProfilePageType) => {
+    //const profilePage = useSelector<RootReducersType, ProfilePageType>(state => state.profilePage)
+    {if (!props.profile) return <Preloader/>}
     return (
         <div>
-            <ProfileInfo imageLink={profilePage.imageLink}/>
+            <ProfileInfo imageLink={props.imageLink} profile={props.profile} />
             <MyPostsContainer />
         </div>
     )

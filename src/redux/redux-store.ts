@@ -17,3 +17,6 @@ export const store = legacy_createStore(rootReducers)
 
 export type RootReducersType = ReturnType<typeof rootReducers>
 
+//@ts-ignore
+window.store = store
+

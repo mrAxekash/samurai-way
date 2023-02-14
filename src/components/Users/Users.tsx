@@ -3,6 +3,7 @@ import style from './Users.module.css'
 import {UserStateType} from "../../redux/users-reducer";
 import img from "./img/pngtree-user-vector-avatar-png-image_1541962.jpg";
 import {Preloader} from "../common/preloader/Preloader";
+import {NavLink} from "react-router-dom";
 
 type Props = {
     totalUsersCount: number
@@ -26,7 +27,7 @@ export const Users = (props: Props) => {
 
     return (
         <div>
-            {props.isFetching ?  <Preloader/> : null}
+            {props.isFetching ? <Preloader/> : null}
 
             {pages.map((p) => {
                 return (
@@ -45,8 +46,10 @@ export const Users = (props: Props) => {
                         <div className={style.usersContainer}>
                             <div>
                                 <div>
-                                    <img src={u.photos.small === null ? img : u.photos.small} alt="avatar"
-                                         className={style.usersAvatar}/>
+                                    <NavLink to={'/profile/' + u.id}>
+                                        <img src={u.photos.small === null ? img : u.photos.small} alt="avatar"
+                                             className={style.usersAvatar}/>
+                                    </NavLink>
                                 </div>
                                 {u.followed ?
                                     <button onClick={() => {
