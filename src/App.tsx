@@ -31,12 +31,12 @@ const App = () => { /*функция-компонента, которая воз
 
             <Navbar friends={sidebarState.bestFriend}/>
             <div className={'app-wrapper-content'}>
-                <Route path={'/profile'}
+                <Route path={'/profile/:userId?'}
                        component={ProfileContainer}
                 />
                 {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                 <Route exact path={'/dialogs'}
-                       render={() => <DialogsContainer/>}
+                       component={DialogsContainer}
                 />
                 <Route exact path={'/users'} component={UsersContainer} />
                 <Route exact path={'/news'} component={News}/>

@@ -9,8 +9,6 @@ type ProfileInfoType = {
 }
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
 
-    let profileObj = Object.entries(props.profile.contacts)
-
     return (
         <div>
             <div className={classes.profile_imgWrapper}>
@@ -28,7 +26,6 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 <div>
                     My Contacts:
                         <ul>
-                            {  }
                             {props.profile?.contacts?.facebook ? <li>{props.profile.contacts.facebook}</li> : <></> }
                             {props.profile?.contacts?.github ? <li>{props.profile.contacts.github}</li> : <></> }
                             {props.profile?.contacts?.vk ? <li>{props.profile.contacts.vk }</li> : <></> }
