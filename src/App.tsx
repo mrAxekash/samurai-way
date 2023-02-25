@@ -12,6 +12,7 @@ import { DialogsContainer } from './components/Dialogs/DialogsContainer';
 import { SidebarType } from './redux/sidebar-reducer';
 import {UsersContainer} from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
+import HeaderContainer from "./components/Header/HeaderContainer";
 
 
 // type AppType = {
@@ -27,7 +28,7 @@ const App = () => { /*функция-компонента, которая воз
 
     return (
         <div className={'app-wrapper'}>
-            <Header/>
+            <HeaderContainer />
 
             <Navbar friends={sidebarState.bestFriend}/>
             <div className={'app-wrapper-content'}>
