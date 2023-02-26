@@ -1,7 +1,5 @@
 import {connect} from "react-redux";
-import {UsersFunctionComponent} from "./UsersFunctionComponent";
 import {RootReducersType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
 import {
     followAC,
     InitialStateType, isFetchingAC,
@@ -11,8 +9,8 @@ import {
     UserStateType
 } from "../../redux/users-reducer";
 import React from "react";
-import axios from "axios";
 import {Users} from "./Users";
+import {usersAPI} from "../../api/api";
 
 export type AllUsersStateType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -20,13 +18,10 @@ class UsersAPIContainer extends React.Component<AllUsersStateType> {
 
     componentDidMount() {
         this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${this.props.currentPage}`, {withCredentials: true, headers: {
-                'API-KEY': '6f4db439-9884-4ff2-8dec-d35fda8e60cc'
-            }})
-            .then((response => {
+        usersAPI.getUsers(this.props.pageSize, this.props.currentPage).then((data => {
                         this.props.toggleIsFetching(false)
-                        this.props.setUsers(response.data.items)
-                        this.props.setTotalUsersCount(response.data.totalCount)
+                        this.props.setUsers(data.items)
+                        this.props.setTotalUsersCount(data.totalCount)
                     }
                 )
             )
@@ -35,12 +30,10 @@ class UsersAPIContainer extends React.Component<AllUsersStateType> {
     onPageChanged = (p: number) => {
         this.props.toggleIsFetching(true)
         this.props.changeUsersPage(p)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.pageSize}&page=${p}`, {withCredentials: true, headers: {
-            'API-KEY': '6f4db439-9884-4ff2-8dec-d35fda8e60cc'
-            }})
-            .then((response => {
+        usersAPI.getUsers(this.props.pageSize, p)
+            .then((data => {
                         this.props.toggleIsFetching(false)
-                        this.props.setUsers(response.data.items)
+                        this.props.setUsers(data.items)
 
                     }
                 )

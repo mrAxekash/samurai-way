@@ -6,6 +6,7 @@ import {ProfilePageType, setUsersProfileAC, UserProfileType} from "../../redux/p
 import {RootReducersType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {RouteComponentProps, withRouter} from "react-router-dom";
+import {profileAPI} from "../../api/api";
 
 type AllProfileType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -15,17 +16,15 @@ type userIdType = {
 
 type RouterPropsType = RouteComponentProps<userIdType> & AllProfileType
 
-class ProfileContainer extends React.Component<RouterPropsType > {
+class ProfileContainer extends React.Component<RouterPropsType> {
 
     componentDidMount() {
 
-        let userId =  !this.props.match.params.userId ? '2' : this.props.match.params.userId
+        let userId = !this.props.match.params.userId ? '2' : this.props.match.params.userId
         //userId: this.props.match.params.userId
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
+        profileAPI.getProfile(userId)
             .then((response => {
-                    this.props.setUserProfile(response.data)
-                    //console.log(response.data)
-
+                        this.props.setUserProfile(response.data)
                     }
                 )
             )
@@ -33,10 +32,10 @@ class ProfileContainer extends React.Component<RouterPropsType > {
 
     render() {
         return (
-                <>
-                    <Profile {...this.props.profile} />
-                </>
-            )
+            <>
+                <Profile {...this.props.profile} />
+            </>
+        )
     }
 }
 
@@ -44,7 +43,7 @@ type MapStateToPropsType = {
     profile: ProfilePageType
 }
 
-const mapStateToProps = (state: RootReducersType ): MapStateToPropsType => {
+const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
     return {
         profile: state.profilePage
     }
@@ -60,7 +59,6 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
         }
     }
 }
-
 
 
 const ProfileUserIdCount = withRouter(ProfileContainer)

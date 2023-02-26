@@ -58,7 +58,6 @@ export const Users = (props: Props) => {
                                                 'API-KEY': '6f4db439-9884-4ff2-8dec-d35fda8e60cc'
                                             }})
                                             .then((response) => {
-                                                debugger
                                                 if (response.data.resultCode === 0) {
                                                     props.unfollow(u.id)
                                                 }
@@ -69,7 +68,6 @@ export const Users = (props: Props) => {
                                             'API-KEY': '6f4db439-9884-4ff2-8dec-d35fda8e60cc'
                                             }})
                                             .then((response) => {
-                                                debugger
                                                 if (response.data.resultCode === 0) {
                                                     props.follow(u.id)
                                                 }
