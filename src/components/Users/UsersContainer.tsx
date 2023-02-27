@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {RootReducersType} from "../../redux/redux-store";
 import {
-    followAC,
+    followAC, followingInProgressAC,
     InitialStateType, isFetchingAC,
     setChangeUsersPageAC, setTotalUsersCountAC,
     setUsersAC,
@@ -51,6 +51,8 @@ class UsersAPIContainer extends React.Component<AllUsersStateType> {
                 follow={this.props.follow}
                 unfollow={this.props.unfollow}
                 isFetching={this.props.isFetching}
+                followInPropgress={this.props.followInPropgress}
+                followingInProgress={this.props.followingInProgress}
             />
         );
     }
@@ -62,6 +64,7 @@ type MapStateToPropsType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number[]
 }
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
 
@@ -70,7 +73,8 @@ const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        followingInProgress: state.usersPage.followingInProgress
     }
 }
 
@@ -81,6 +85,7 @@ type MapDispatchToPropsType = {
     changeUsersPage: (newUsersPage: number) => void
     setTotalUsersCount: (totalUsersCount: number) => void
     toggleIsFetching: (isFetching: boolean) => void
+    followInPropgress: (progressFetching: boolean, userId: number) => void
 }
 
 // const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
@@ -115,5 +120,6 @@ export const UsersContainer = connect(mapStateToProps, {
     setUsers: setUsersAC,
     changeUsersPage: setChangeUsersPageAC,
     setTotalUsersCount: setTotalUsersCountAC,
-    toggleIsFetching: isFetchingAC
+    toggleIsFetching: isFetchingAC,
+    followInPropgress: followingInProgressAC
 })(UsersAPIContainer);

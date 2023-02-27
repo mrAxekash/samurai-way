@@ -4,6 +4,7 @@ export type InitialStateType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    followingInProgress: number[]
 }
 export type PhotosUserType = {
     small: string | undefined
@@ -28,10 +29,11 @@ let initialState: InitialStateType = {
     pageSize: 100,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
-export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType | IsFetchingACType
+export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType | IsFetchingACType | FollowingInProgressACType
 
 type FollowACType = ReturnType<typeof followAC>
 export const followAC = (userID: number) => {
@@ -93,6 +95,16 @@ export const isFetchingAC = (fetching: boolean) => {
     } as const
 }
 
+type FollowingInProgressACType = ReturnType<typeof followingInProgressAC>
+export const followingInProgressAC = (isFething: boolean, userId: number) => {
+    return {
+        type: 'FOLLOW-IN-PROGRESS',
+        payload: {
+            isFething, userId
+        }
+    } as const
+}
+
 export const users_Reducer = (state: InitialStateType = initialState, action: AllUsersType):InitialStateType  => {
     switch (action.type) {
         case 'FOLLOW': {
@@ -113,6 +125,11 @@ export const users_Reducer = (state: InitialStateType = initialState, action: Al
         }
         case "CHANGE-FETCHING": {
             return {...state, isFetching: action.payload.fetching}
+        }
+        case 'FOLLOW-IN-PROGRESS': {
+            debugger
+            return {...state,
+                followingInProgress: action.payload.isFething ? [...state.followingInProgress, action.payload.userId] : state.followingInProgress.filter(userId => userId !== action.payload.userId)}
         }
         default: {
             return state

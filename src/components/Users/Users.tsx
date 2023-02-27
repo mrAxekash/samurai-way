@@ -15,6 +15,8 @@ type Props = {
     onPageChanged: (page: number) => void
     follow: (userId: number) => void
     unfollow: (userId: number) => void
+    followInPropgress: (progressIsFetching: boolean, userId: number) => void
+    followingInProgress: number[]
 };
 
 export const Users = (props: Props) => {
@@ -53,7 +55,8 @@ export const Users = (props: Props) => {
                                     </NavLink>
                                 </div>
                                 {u.followed ?
-                                    <button onClick={() => {
+                                    <button disabled={props.followingInProgress.some(userId => userId === u.id)} onClick={() => {
+                                        props.followInPropgress(true, u.id)
                                         axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {withCredentials: true, headers:{
                                                 'API-KEY': '6f4db439-9884-4ff2-8dec-d35fda8e60cc'
                                             }})
@@ -61,9 +64,11 @@ export const Users = (props: Props) => {
                                                 if (response.data.resultCode === 0) {
                                                     props.unfollow(u.id)
                                                 }
+                                                props.followInPropgress(false, u.id)
                                             })
                                     }}>Unfollow</button> :
-                                    <button onClick={() => {
+                                    <button disabled={props.followingInProgress.some(userId => userId === u.id)} onClick={() => {
+                                        props.followInPropgress(true, u.id)
                                         axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {},{withCredentials: true, headers:{
                                             'API-KEY': '6f4db439-9884-4ff2-8dec-d35fda8e60cc'
                                             }})
@@ -71,6 +76,7 @@ export const Users = (props: Props) => {
                                                 if (response.data.resultCode === 0) {
                                                     props.follow(u.id)
                                                 }
+                                                props.followInPropgress(false, u.id)
                                             })
                                     }}>Follow</button>}
                             </div>
