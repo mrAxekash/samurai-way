@@ -15,14 +15,6 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 
 
-// type AppType = {
-//     state: RootStateType
-//     dispatch: (action: AllActionTypes) => void
-// }
-// type AppType = {
-//     store: StoreStateType
-// }
-
 const App = () => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
     const sidebarState = useSelector<RootReducersType, SidebarType>(state => state.sidebar)
 

@@ -6,35 +6,6 @@ import {connect} from "react-redux";
 import { Dispatch } from "redux";
 
 
-// type DialogsPropsType = {
-//     store: any
-// }
-
-// export const DialogsContainer = () => {
-//
-//     return (<StoreContext.Consumer>
-//             {(store: any) => {
-//                 let state = store.getState()
-//                 const addSendMessage = () => {
-//                     let action = addMessageAC()
-//                     store.dispatch(action)
-//                 }
-//                 const addNewMessage = (newMessage: string) => {
-//                     let action = updateNewMessageAC(newMessage)
-//                     store.dispatch(action)
-//                 }
-//                 return (
-//                     <Dialogs
-//                         dialogsData={state.dialogsPage}
-//                         addSendMessage={addSendMessage}
-//                         addNewMessage={addNewMessage}/>
-//                 )
-//             }
-//             }
-//         </StoreContext.Consumer>
-//     )
-// }
-
 export type MapStatePropsType = {
     dialogsPage: DialogsPageType
 }

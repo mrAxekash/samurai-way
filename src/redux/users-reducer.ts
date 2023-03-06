@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
+
 export type InitialStateType = {
     users: UserStateType[]
     pageSize: number
@@ -33,7 +36,14 @@ let initialState: InitialStateType = {
     followingInProgress: []
 }
 
-export type AllUsersType = SetUsersACType | FollowACType | UnfollowACType | SetChangeUsersPageACType | SetTotalUsersCountType | IsFetchingACType | FollowingInProgressACType
+export type AllUsersType =
+    SetUsersACType
+    | FollowACType
+    | UnfollowACType
+    | SetChangeUsersPageACType
+    | SetTotalUsersCountType
+    | IsFetchingACType
+    | FollowingInProgressACType
 
 type FollowACType = ReturnType<typeof followAC>
 export const followAC = (userID: number) => {
@@ -105,13 +115,19 @@ export const followingInProgressAC = (isFething: boolean, userId: number) => {
     } as const
 }
 
-export const users_Reducer = (state: InitialStateType = initialState, action: AllUsersType):InitialStateType  => {
+export const users_Reducer = (state: InitialStateType = initialState, action: AllUsersType): InitialStateType => {
     switch (action.type) {
         case 'FOLLOW': {
-            return {...state, users: state.users.map(user => user.id === action.payload.userID ? {...user, followed: true} : user) }
+            return {
+                ...state,
+                users: state.users.map(user => user.id === action.payload.userID ? {...user, followed: true} : user)
+            }
         }
         case 'UNFOLLOW': {
-            return {...state, users: state.users.map(user => user.id === action.payload.userID ? {...user, followed: false} : user) }
+            return {
+                ...state,
+                users: state.users.map(user => user.id === action.payload.userID ? {...user, followed: false} : user)
+            }
         }
         case 'SET-USERS': {
 
@@ -127,12 +143,53 @@ export const users_Reducer = (state: InitialStateType = initialState, action: Al
             return {...state, isFetching: action.payload.fetching}
         }
         case 'FOLLOW-IN-PROGRESS': {
-            debugger
-            return {...state,
-                followingInProgress: action.payload.isFething ? [...state.followingInProgress, action.payload.userId] : state.followingInProgress.filter(userId => userId !== action.payload.userId)}
+            return {
+                ...state,
+                followingInProgress: action.payload.isFething ? [...state.followingInProgress, action.payload.userId] : state.followingInProgress.filter(userId => userId !== action.payload.userId)
+            }
         }
         default: {
             return state
         }
+    }
+}
+
+export const getUsersReduxThunk = (pageSize: number, currentPage: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(isFetchingAC(true))
+        dispatch(setChangeUsersPageAC(currentPage))
+        usersAPI.getUsers(pageSize, currentPage).then((data => {
+                    dispatch(isFetchingAC(false))
+                    dispatch(setUsersAC(data.items))
+                    dispatch(setTotalUsersCountAC(data.totalCount))
+                }
+            )
+        )
+    }
+}
+
+export const follow = (userId: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(followingInProgressAC(true, userId))
+        usersAPI.unfollow(userId)
+            .then((response) => {
+                if (response.data.resultCode === 0) {
+                    dispatch(unfollowAC(userId))
+                }
+                dispatch(followingInProgressAC(false, userId))
+            })
+    }
+}
+
+export const unfollow = (userId: number) => {
+    return (dispatch: Dispatch) => {
+        dispatch(followingInProgressAC(true, userId))
+        usersAPI.follow(userId)
+            .then((response) => {
+                if (response.data.resultCode === 0) {
+                    dispatch(followAC(userId))
+                }
+                dispatch(followingInProgressAC(false, userId))
+            })
     }
 }

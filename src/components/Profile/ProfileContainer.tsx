@@ -1,12 +1,10 @@
 import React from "react";
 import {Profile} from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
-import {ProfilePageType, setUsersProfileAC, UserProfileType} from "../../redux/profile-reducer";
+import {ProfilePageType, profileThunkCreator, setUsersProfileAC, UserProfileType} from "../../redux/profile-reducer";
 import {RootReducersType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
 import {RouteComponentProps, withRouter} from "react-router-dom";
-import {profileAPI} from "../../api/api";
 
 type AllProfileType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -19,15 +17,8 @@ type RouterPropsType = RouteComponentProps<userIdType> & AllProfileType
 class ProfileContainer extends React.Component<RouterPropsType> {
 
     componentDidMount() {
-
         let userId = !this.props.match.params.userId ? '2' : this.props.match.params.userId
-        //userId: this.props.match.params.userId
-        profileAPI.getProfile(userId)
-            .then((response => {
-                        this.props.setUserProfile(response.data)
-                    }
-                )
-            )
+        this.props.profileThunkCreator(+userId)
     }
 
     render() {
@@ -42,25 +33,27 @@ class ProfileContainer extends React.Component<RouterPropsType> {
 type MapStateToPropsType = {
     profile: ProfilePageType
 }
+type MapDispatchToPropsType = {
+    setUserProfile: (profileData: UserProfileType) => void
+    profileThunkCreator: (userId: number) => void
+}
 
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
     return {
         profile: state.profilePage
     }
 }
-type MapDispatchToPropsType = {
-    setUserProfile: (profileData: UserProfileType) => void
-}
+
 
 const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     return {
         setUserProfile: (userProfile: UserProfileType) => {
             dispatch(setUsersProfileAC(userProfile))
-        }
+        },
+        profileThunkCreator: profileThunkCreator
     }
 }
 
 
 const ProfileUserIdCount = withRouter(ProfileContainer)
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileUserIdCount);
-//export default ProfileContainer;
+export default connect(mapStateToProps, {profileThunkCreator: profileThunkCreator})(ProfileUserIdCount);

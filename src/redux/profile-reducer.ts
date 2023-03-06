@@ -1,6 +1,8 @@
 import React from 'react'
 import {AllActionTypes} from "./store";
 import {v1} from "uuid";
+import {profileAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 export type  UserProfileType = {
     userId: string
@@ -80,8 +82,6 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
     }
 }
 
-//export type AllProfileACTypes = AddPostACType | UpdateNewPostTextACType
-
 export type AddPostACType = ReturnType<typeof addPostActionCreator>
 export const addPostActionCreator = () => ({type: ADD_POST} as const)
 
@@ -91,3 +91,13 @@ export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDAT
 export type setUsersACType = ReturnType<typeof setUsersProfileAC>
 export const setUsersProfileAC = (newUserProfile: UserProfileType) => {
     return {type: SET_USER_PROFILE, newUserProfile} as const}
+
+export const profileThunkCreator = (userId: number) => {
+    return (dispatch: Dispatch) => {
+        profileAPI.getProfile(`${userId}`).then((response => {
+                        dispatch(setUsersProfileAC(response.data))
+                    }
+                )
+            )
+    }
+}

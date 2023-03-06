@@ -3,18 +3,7 @@ import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {StateDialogsPropsType} from "./DialogsContainer";
-import { DialogsPageType } from "../../redux/dialogs-reducer";
 
-
-
-
-// type DialogsPropsType = {
-//     dialogsData: DialogsPageType
-//     addSendMessage: () => void
-//     addNewMessage: (newMessage: string) => void
-//
-// }
-//
 
 export const Dialogs: React.FC<StateDialogsPropsType> = (props) => {
     //let [newMessage, setNewMessage] = useState('')

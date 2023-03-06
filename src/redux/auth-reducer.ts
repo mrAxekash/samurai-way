@@ -93,6 +93,9 @@
 //     } as const
 // }
 
+import {Dispatch} from "redux";
+import {authAPI} from "../api/api";
+
 export type AuthUserType = ReturnType<typeof setAuthUser>
 export const setAuthUser = (id: number, email: string, login: string) => {
     return {
@@ -116,7 +119,7 @@ const initialState = {
     isAuth: false
 }
 
-export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType):InitialStateType  => {
+export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType): InitialStateType => {
     switch (action.type) {
         case 'COMPLETE-AUTH-USER': {
             return {...state, ...action.payload, isAuth: true}
@@ -124,5 +127,19 @@ export const auth_Reducer = (state: InitialStateType = initialState, action: Aut
         default: {
             return state
         }
+    }
+}
+
+export const authThunkCreator = () => {
+    return (dispatch: Dispatch) => {
+        authAPI.getAuth()
+            .then((data => {
+                        if (data.resultCode === 0) {
+                            const {id, email, login} = data.data
+                            dispatch(setAuthUser(id, email, login))
+                        }
+                    }
+                )
+            )
     }
 }
