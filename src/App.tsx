@@ -13,6 +13,7 @@ import { SidebarType } from './redux/sidebar-reducer';
 import {UsersContainer} from "./components/Users/UsersContainer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import {Login} from "./components/Login/Login";
 
 
 const App = () => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
@@ -35,6 +36,7 @@ const App = () => { /*функция-компонента, которая воз
                 <Route exact path={'/news'} component={News}/>
                 <Route exact path={'/music'} component={Music}/>
                 <Route exact path={'/settings'} component={Settings}/>
+                <Route exact path={'/login'} component={Login}/>
             </div>
         </div>
         //<BrowserRouter> {/*BrowserRouter - обёртка для ссылок в документе. Применяется для работы компонент Route */}
