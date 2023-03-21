@@ -56,7 +56,8 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     }
 }
 
-export default compose<React.FC>(withRouter, WithAuthRedirect, connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}))(ProfileContainer)
+//export default compose<React.FC>(withRouter, WithAuthRedirect, connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}))(ProfileContainer)
+export default compose<React.FC>(connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}), WithAuthRedirect, withRouter)(ProfileContainer)
 
 // const AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
 //

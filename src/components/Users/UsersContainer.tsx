@@ -10,6 +10,8 @@ import {
 } from "../../redux/users-reducer";
 import React from "react";
 import {Users} from "./Users";
+import {compose} from "redux";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 
 export type AllUsersStateType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -70,7 +72,8 @@ type MapDispatchToPropsType = {
     followInPropgress: (progressFetching: boolean, userId: number) => void
     getUsersReduxThunk: (pageSize: number, currentPage: number) => void
 }
-export const UsersContainer = connect(mapStateToProps, {
+
+export default compose<React.FC>(WithAuthRedirect, connect(mapStateToProps, {
     follow: follow,
     unfollow: unfollow,
     setUsers: setUsersAC,
@@ -79,4 +82,15 @@ export const UsersContainer = connect(mapStateToProps, {
     toggleIsFetching: isFetchingAC,
     followInPropgress: followingInProgressAC,
     getUsersReduxThunk: getUsersReduxThunk
-})(UsersAPIContainer);
+}))(UsersAPIContainer)
+
+// export const UsersContainer = connect(mapStateToProps, {
+//     follow: follow,
+//     unfollow: unfollow,
+//     setUsers: setUsersAC,
+//     changeUsersPage: setChangeUsersPageAC,
+//     setTotalUsersCount: setTotalUsersCountAC,
+//     toggleIsFetching: isFetchingAC,
+//     followInPropgress: followingInProgressAC,
+//     getUsersReduxThunk: getUsersReduxThunk
+// })(UsersAPIContainer);
