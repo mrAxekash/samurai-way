@@ -1,8 +1,6 @@
 import React from "react";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import {MyPostsContainer} from "./MyPosts/MyPostsContainer";
-import {useSelector} from "react-redux";
-import {RootReducersType} from "../../redux/redux-store";
 import {ProfilePageType} from "../../redux/profile-reducer";
 import {Preloader} from "../common/preloader/Preloader";
 

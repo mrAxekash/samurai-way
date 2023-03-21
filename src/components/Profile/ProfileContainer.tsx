@@ -1,10 +1,11 @@
-import React from "react";
+import React, {FC} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {ProfilePageType, profileThunkCreator, setUsersProfileAC, UserProfileType} from "../../redux/profile-reducer";
 import {RootReducersType} from "../../redux/redux-store";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 
 type AllProfileType = MapStateToPropsType & MapDispatchToPropsType
 
@@ -22,8 +23,6 @@ class ProfileContainer extends React.Component<RouterPropsType> {
     }
 
     render() {
-        if(!this.props.isAuth) return <Redirect to={'/login'} />
-
         return (
             <>
                 <Profile {...this.props.profile} />
@@ -34,8 +33,8 @@ class ProfileContainer extends React.Component<RouterPropsType> {
 
 type MapStateToPropsType = {
     profile: ProfilePageType
-    isAuth: boolean
 }
+
 type MapDispatchToPropsType = {
     setUserProfile: (profileData: UserProfileType) => void
     profileThunkCreator: (userId: number) => void
@@ -44,7 +43,6 @@ type MapDispatchToPropsType = {
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
     return {
         profile: state.profilePage,
-        isAuth: state.auth.isAuth
     }
 }
 
@@ -58,6 +56,10 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
     }
 }
 
+export default compose<React.FC>(withRouter, WithAuthRedirect, connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}))(ProfileContainer)
 
-const ProfileUserIdCount = withRouter(ProfileContainer)
-export default connect(mapStateToProps, {profileThunkCreator: profileThunkCreator})(ProfileUserIdCount);
+// const AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
+//
+// const ProfileUserIdCount = withRouter(AuthRedirectComponent)
+//
+// export default connect(mapStateToProps, {profileThunkCreator: profileThunkCreator})(ProfileUserIdCount);

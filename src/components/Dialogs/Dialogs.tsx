@@ -27,8 +27,6 @@ export const Dialogs: React.FC<StateDialogsPropsType> = (props) => {
     const onNewMessageChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.addNewMessage(e.currentTarget.value)
     }
-
-    if (!props.isAuth) return <Redirect to={'/login'}/>
     
     return (
         <div className={s.dialogs}>
@@ -45,8 +43,6 @@ export const Dialogs: React.FC<StateDialogsPropsType> = (props) => {
                     <button onClick={onSendMessageClickHandler}>Send message</button>
                 </div>
             </div>
-
         </div>
     )
-
 }
