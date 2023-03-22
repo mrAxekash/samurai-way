@@ -1,6 +1,7 @@
 import React from "react";
 import classes from './ProfileInfo.module.css';
 import {UserProfileType} from "../../../redux/profile-reducer";
+import {ProfileStatus} from "./ProfileStatus";
 
 
 type ProfileInfoType = {
@@ -11,15 +12,16 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
 
     return (
         <div>
-            <div className={classes.profile_imgWrapper}>
-                <img src={props.imageLink} alt="image"/>
-            </div>
+            {/*<div className={classes.profile_imgWrapper}>*/}
+            {/*    <img src={props.imageLink} alt="image"/>*/}
+            {/*</div>*/}
             <div className={classes.profileDescription}>
                 <img src={props.profile.photos?.large ? props.profile.photos.large : '#' } alt="#"/>
 
                 <div>
                     <h2>{props.profile.fullName}</h2>
                 </div>
+                <ProfileStatus userStatus={'Hello social network'}/>
                 <div>
                     About me: {props.profile.aboutMe}
                 </div>
