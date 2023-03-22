@@ -1,7 +1,13 @@
 import React, {FC} from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
-import {ProfilePageType, profileThunkCreator, setUsersProfileAC, UserProfileType} from "../../redux/profile-reducer";
+import {
+    ProfilePageType,
+    profileStatusTC,
+    profileThunkCreator,
+    setUsersProfileAC,
+    UserProfileType
+} from "../../redux/profile-reducer";
 import {RootReducersType} from "../../redux/redux-store";
 import {compose, Dispatch} from "redux";
 import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
@@ -20,6 +26,7 @@ class ProfileContainer extends React.Component<RouterPropsType> {
     componentDidMount() {
         let userId = !this.props.match.params.userId ? '2' : this.props.match.params.userId
         this.props.profileThunkCreator(+userId)
+        this.props.setUserStatus(+userId)
     }
 
     render() {
@@ -38,6 +45,7 @@ type MapStateToPropsType = {
 type MapDispatchToPropsType = {
     setUserProfile: (profileData: UserProfileType) => void
     profileThunkCreator: (userId: number) => void
+    setUserStatus: (userId: number) => void
 }
 
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
@@ -52,12 +60,13 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
         setUserProfile: (userProfile: UserProfileType) => {
             dispatch(setUsersProfileAC(userProfile))
         },
-        profileThunkCreator: profileThunkCreator
+        profileThunkCreator: profileThunkCreator,
+        setUserStatus: profileStatusTC
     }
 }
 
 //export default compose<React.FC>(withRouter, WithAuthRedirect, connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}))(ProfileContainer)
-export default compose<React.FC>(connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}), WithAuthRedirect, withRouter)(ProfileContainer)
+export default compose<React.FC>(connect(mapStateToProps, {profileThunkCreator: profileThunkCreator, setUserStatus: profileStatusTC}), WithAuthRedirect, withRouter)(ProfileContainer)
 
 // const AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
 //

@@ -7,6 +7,7 @@ import {ProfileStatus} from "./ProfileStatus";
 type ProfileInfoType = {
     imageLink: string
     profile: UserProfileType
+    status: string
 }
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
 
@@ -21,7 +22,7 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 <div>
                     <h2>{props.profile.fullName}</h2>
                 </div>
-                <ProfileStatus userStatus={'Hello social network'}/>
+                <ProfileStatus userStatus={props.status}/>
                 <div>
                     About me: {props.profile.aboutMe}
                 </div>

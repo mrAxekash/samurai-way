@@ -31,6 +31,7 @@ export type ProfilePageType = {
     posts: PostsType[]
     newPostText: string
     profile: UserProfileType
+    status: string
 }
 export type PostsType = {
     id: string
@@ -54,10 +55,11 @@ let initialState: ProfilePageType = {
         {id: '6', message: 'This is my fifth post!', likesCount: 155},
     ],
     newPostText: '',
-    profile: {} as UserProfileType
+    profile: {} as UserProfileType,
+    status: ''
 }
 
-export type AllProfileType = AddPostACType | UpdateNewPostTextACType | setUsersACType
+export type AllProfileType = AddPostACType | UpdateNewPostTextACType | setUsersACType | SetUserStatusACType
 
 export const profile_Reducer = (state: ProfilePageType = initialState, action: AllProfileType): ProfilePageType => {
     switch (action.type) {
@@ -76,6 +78,9 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
         case SET_USER_PROFILE: {
             return {...state, profile: action.newUserProfile}
         }
+        case "SET-USER-STATUS": {
+            return {...state, status: action.userStatus}
+        }
 
         default:
             return state
@@ -92,6 +97,14 @@ export type setUsersACType = ReturnType<typeof setUsersProfileAC>
 export const setUsersProfileAC = (newUserProfile: UserProfileType) => {
     return {type: SET_USER_PROFILE, newUserProfile} as const}
 
+export type SetUserStatusACType = ReturnType<typeof setUserStatusAC>
+export const setUserStatusAC = (userStatus: string) => {
+    return {
+        type: 'SET-USER-STATUS',
+        userStatus
+    } as const
+}
+
 export const profileThunkCreator = (userId: number) => {
     return (dispatch: Dispatch) => {
         profileAPI.getProfile(`${userId}`).then((response => {
@@ -100,4 +113,11 @@ export const profileThunkCreator = (userId: number) => {
                 )
             )
     }
+}
+
+export const profileStatusTC = (userId: number) => (dispatch: Dispatch) => {
+    profileAPI.getStatus(userId)
+        .then((res) => {
+            dispatch(setUserStatusAC(res.data))
+        })
 }
