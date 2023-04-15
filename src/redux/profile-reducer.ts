@@ -1,5 +1,3 @@
-import React from 'react'
-import {AllActionTypes} from "./store";
 import {v1} from "uuid";
 import {profileAPI} from "../api/api";
 import {Dispatch} from "redux";
@@ -32,6 +30,7 @@ export type ProfilePageType = {
     newPostText: string
     profile: UserProfileType
     status: string
+    updateUserStatus: (status: string) => void
 }
 export type PostsType = {
     id: string
@@ -56,7 +55,8 @@ let initialState: ProfilePageType = {
     ],
     newPostText: '',
     profile: {} as UserProfileType,
-    status: ''
+    status: '',
+    updateUserStatus: () => {}
 }
 
 export type AllProfileType = AddPostACType | UpdateNewPostTextACType | setUsersACType | SetUserStatusACType
@@ -81,6 +81,7 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
         case "SET-USER-STATUS": {
             return {...state, status: action.userStatus}
         }
+
 
         default:
             return state
@@ -119,5 +120,15 @@ export const profileStatusTC = (userId: number) => (dispatch: Dispatch) => {
     profileAPI.getStatus(userId)
         .then((res) => {
             dispatch(setUserStatusAC(res.data))
+        })
+}
+
+export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
+    profileAPI.updateStatus(status)
+        .then((res) => {
+            if(res.data.resultCode === 0) {
+                dispatch(setUserStatusAC(status))
+            }
+
         })
 }

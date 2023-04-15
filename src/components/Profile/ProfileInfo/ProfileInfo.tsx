@@ -8,9 +8,9 @@ type ProfileInfoType = {
     imageLink: string
     profile: UserProfileType
     status: string
+    updateUserStatus: (status: string) => void
 }
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
-
     return (
         <div>
             {/*<div className={classes.profile_imgWrapper}>*/}
@@ -22,7 +22,8 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 <div>
                     <h2>{props.profile.fullName}</h2>
                 </div>
-                <ProfileStatus userStatus={props.status}/>
+                <ProfileStatus
+                    userStatus={props.status} updateUserStatus={props.updateUserStatus}/>
                 <div>
                     About me: {props.profile.aboutMe}
                 </div>

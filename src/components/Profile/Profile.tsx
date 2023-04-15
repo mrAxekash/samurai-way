@@ -13,7 +13,12 @@ export const Profile = (props: ProfilePageType) => {
     {if (!props.profile) return <Preloader/>}
     return (
         <div>
-            <ProfileInfo imageLink={props.imageLink} profile={props.profile} status={profileStatus} />
+            <ProfileInfo
+                imageLink={props.imageLink}
+                profile={props.profile}
+                status={profileStatus}
+                updateUserStatus={props.updateUserStatus}
+            />
             <MyPostsContainer />
         </div>
     )
