@@ -22,6 +22,8 @@ import UsersContainer from "./components/Users/UsersContainer";
 const App = () => { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
     const sidebarState = useSelector<RootReducersType, SidebarType>(state => state.sidebar)
 
+    debugger
+    console.log('this', this)
     return (
         <div className={'app-wrapper'}>
             <HeaderContainer />

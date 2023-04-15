@@ -23,6 +23,7 @@ type RouterPropsType = RouteComponentProps<userIdType> & AllProfileType
 
 class ProfileContainer extends React.Component<RouterPropsType> {
 
+
     componentDidMount() {
         let userId = !this.props.match.params.userId ? '2' : this.props.match.params.userId
         this.props.profileThunkCreator(+userId)
@@ -55,18 +56,19 @@ const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
 }
 
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
-    return {
-        setUserProfile: (userProfile: UserProfileType) => {
-            dispatch(setUsersProfileAC(userProfile))
-        },
-        profileThunkCreator: profileThunkCreator,
-        setUserStatus: profileStatusTC
-    }
-}
+// const mapDispatchToProps = (dispatch: Dispatch): MapDispatchToPropsType => {
+//     return {
+//         setUserProfile: (userProfile: UserProfileType) => {
+//             dispatch(setUsersProfileAC(userProfile))
+//         },
+//         profileThunkCreator: profileThunkCreator,
+//         setUserStatus: profileStatusTC
+//     }
+// }
 
 //export default compose<React.FC>(withRouter, WithAuthRedirect, connect(mapStateToProps, {profileThunkCreator: profileThunkCreator}))(ProfileContainer)
-export default compose<React.FC>(connect(mapStateToProps, {profileThunkCreator: profileThunkCreator, setUserStatus: profileStatusTC}), WithAuthRedirect, withRouter)(ProfileContainer)
+
+export default compose<React.ComponentType>(connect(mapStateToProps, {profileThunkCreator: profileThunkCreator, setUserStatus: profileStatusTC}), WithAuthRedirect, withRouter)(ProfileContainer)
 
 // const AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
 //

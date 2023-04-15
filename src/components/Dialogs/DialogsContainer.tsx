@@ -33,5 +33,6 @@ const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
         }
     }
 }
+//compose работает как 2 функции (похож на connect). В первый вызов функиии вместо аргументов вписываем с конца те хоки, которыми нужно будет обернуть компоненту. С конца потому что при втором вызове передаётся компонента, которую необходимо обернуть в эти хоки. И выполнение оборачивания будет начинаться с конца вызова 1 функии: сначала WithAuthRedirect, затем connect(mapStateToProps, mapDispatchToProps). connect это не HOC, а функция, которая возвращает HOK.
 
 export default compose<React.FC>(connect(mapStateToProps, mapDispatchToProps), WithAuthRedirect)(Dialogs)

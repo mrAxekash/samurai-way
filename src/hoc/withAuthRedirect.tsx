@@ -29,3 +29,29 @@ export function WithAuthRedirect <T>(Component: ComponentType<T>)  {
 
     return ConnectAuthRedirectComponent;
 };
+
+// type MapStatePropsType = {
+//     isAuth: boolean
+// }
+//
+// const mapStateToProps = (state: RootReducersType): MapStatePropsType => {
+//     return {
+//         isAuth: state.auth.isAuth
+//     }
+// }
+// export function WithAuthRedirect <T>(Component: ComponentType<T>) {
+//
+//     const RedirectComponent = (props: MapStatePropsType) => {
+//
+//         let {isAuth, ...restProps} = props
+//
+//         if(!isAuth) return <Redirect to={'/login'} />
+//
+//
+//         return <Component {...restProps as T}/>
+//     }
+//
+//     let ConnectedRedirectComponent = connect(mapStateToProps)(RedirectComponent)
+//
+//     return ConnectedRedirectComponent
+// }
