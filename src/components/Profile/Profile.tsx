@@ -10,7 +10,8 @@ import {RootReducersType} from "../../redux/redux-store";
 export const Profile = (props: ProfilePageType) => {
     //const profilePage = useSelector<RootReducersType, ProfilePageType>(state => state.profilePage)
     const profileStatus = useSelector<RootReducersType, any>(state => state.profilePage.status)
-    {if (!props.profile) return <Preloader/>}
+
+    if (!props.profile) return <Preloader/>
     return (
         <div>
             <ProfileInfo

@@ -37,11 +37,20 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
         })
     }
 
+    componentDidUpdate(prevProps: Readonly<ProfileStatusPropsType>, prevState: Readonly<{}>) {
+        let state = this.state.status
+        if(this.props.userStatus !== prevProps.userStatus) {
+            this.setState({
+                status: this.props.userStatus
+            })
+        }
+    }
+
     render() {
         return (
             <div>
                 {!this.state.editMode ?  <div>
-                    <span onDoubleClick={this.activateMode}>{this.props.userStatus}</span>
+                    <span onDoubleClick={this.activateMode}>{this.props.userStatus || '----------'}</span>
                 </div> : <div>
                     <input
                         onBlur={this.deactivateMode}
