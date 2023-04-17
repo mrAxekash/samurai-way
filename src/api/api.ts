@@ -27,9 +27,13 @@ export const usersAPI = {
 export const authAPI = {
     getAuth() {
         return instance.get(`auth/me`)
-            .then((response)=> {
+            .then((response) => {
                 return response.data
             })
+    },
+    login(email: string, password: string, rememberMe: boolean) {
+        console.log('authAPI.login is render')
+       return instance.post('auth/login', {email, password, rememberMe})
     }
 }
 

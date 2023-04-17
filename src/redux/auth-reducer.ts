@@ -96,33 +96,13 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/api";
 
-export type AuthUserType = ReturnType<typeof setAuthUser>
-export const setAuthUser = (id: number, email: string, login: string) => {
-    return {
-        type: 'COMPLETE-AUTH-USER',
-        payload: {
-            id, email, login
-        }
-    } as const
-}
-
-export type InitialStateType = {
-    id: null | number
-    email: null | string
-    login: null | string
-    isAuth: boolean
-}
-const initialState = {
-    id: null,
-    email: null,
-    login: null,
-    isAuth: false
-}
-
 export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType): InitialStateType => {
     switch (action.type) {
         case 'COMPLETE-AUTH-USER': {
             return {...state, ...action.payload, isAuth: true}
+        }
+        case "SET-USER-LOGIN": {
+            return {...state, ...action.payload}
         }
         default: {
             return state
@@ -130,6 +110,7 @@ export const auth_Reducer = (state: InitialStateType = initialState, action: Aut
     }
 }
 
+// thunks
 export const authThunkCreator = () => {
     return (dispatch: Dispatch) => {
         authAPI.getAuth()
@@ -142,4 +123,57 @@ export const authThunkCreator = () => {
                 )
             )
     }
+}
+
+export const loginUserTC = (email: string, password: string, rememberMe: boolean) => {
+    console.log('loginUserTC is render')
+    return (dispatch: Dispatch) => {
+        authAPI.login(email, password, rememberMe)
+            .then((res) => {
+                console.log(res)
+            })
+    }
+}
+
+// action creators
+
+
+export const setAuthUser = (id: number, email: string, login: string) => {
+    return {
+        type: 'COMPLETE-AUTH-USER',
+        payload: {
+            id, email, login
+        }
+    } as const
+}
+
+export const setLoginUser = (email: string, password: string, rememberMe: boolean) => {
+    return {
+        type: 'SET-USER-LOGIN',
+        payload: {
+            email,
+            password,
+            rememberMe
+        }
+    } as const
+}
+
+
+// types
+
+export type AuthUserType = ReturnType<typeof setAuthUser> | ReturnType<typeof setLoginUser>
+
+export type InitialStateType = {
+    id: null | number
+    email: null | string
+    login: null | string
+    isAuth: boolean
+    rememberMe: boolean
+}
+const initialState = {
+    id: null,
+    email: null,
+    login: null,
+    isAuth: false,
+    rememberMe: false
 }
