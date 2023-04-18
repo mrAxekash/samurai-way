@@ -2,12 +2,12 @@ import * as React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form"
 import {loginUserTC} from "../../redux/auth-reducer";
 import {useDispatch} from "react-redux";
-import {AnyAction} from "redux";
 
 export type Inputs = {
     email: string
     password: string
     rememberMe: boolean
+    age: any
 }
 
 type Props = {};
@@ -26,7 +26,7 @@ const LoginForm = () => {
 
     const {
         register,
-        formState: {errors},
+        formState: {errors, submitCount},
         handleSubmit
     } = useForm<Inputs>({
         defaultValues: {
