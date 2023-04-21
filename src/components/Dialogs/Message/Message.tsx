@@ -1,8 +1,6 @@
 import React from "react";
 import s from '../Dialogs.module.css'
 
-//`${s.message}  ${props.myMessage} ?  : ${s.friendMessage}`
-// && props.myMessage ? '' :
 type MessageType = {
     message: string
     myMessage: boolean

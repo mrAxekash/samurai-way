@@ -3,12 +3,10 @@ import s from './Dialogs.module.css'
 import {Message} from "./Message/Message";
 import {DialogItem} from "./DialogItem/DialogItem";
 import {StateDialogsPropsType} from "./DialogsContainer";
-import {Redirect} from "react-router-dom";
+import {Form} from "../common/Form";
 
 
 export const Dialogs: React.FC<StateDialogsPropsType> = (props) => {
-    //let [newMessage, setNewMessage] = useState('')
-    //!!!written in the old: let newMessage: RefObject<HTMLTextAreaElement> = React.createRef()!!!
 
     let dialogElement = props.dialogsPage.dialogs.map(d => <DialogItem name={d.name}
                                                                        id={d.id}
@@ -21,11 +19,8 @@ export const Dialogs: React.FC<StateDialogsPropsType> = (props) => {
                                                                       myMessage={m.myMessage}
                                                                       avatar={m.avatar}/>)
 
-    const onSendMessageClickHandler = () => {
-        props.addSendMessage()
-    }
-    const onNewMessageChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.addNewMessage(e.currentTarget.value)
+    const onSendMessageClickHandler = (newPostMessage: string) => {
+        props.addSendMessage(newPostMessage)
     }
     
     return (
@@ -36,11 +31,7 @@ export const Dialogs: React.FC<StateDialogsPropsType> = (props) => {
             <div className={s.messages}>
                 {messageElement}
                 <div>
-                    <textarea value={props.dialogsPage.newMessageText}
-                              onChange={onNewMessageChangeHandler}
-                              placeholder={'Enter your message'}></textarea>
-                    {/* !!! writting in the old: <textarea ref={newMessage}></textarea>*/}!!!
-                    <button onClick={onSendMessageClickHandler}>Send message</button>
+                    <Form sendMessage={onSendMessageClickHandler}/>
                 </div>
             </div>
         </div>

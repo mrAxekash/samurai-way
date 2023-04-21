@@ -1,41 +1,18 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import classes from './MyPosts.module.css';
 import {Post} from "./Post/Post";
 import {PostsContainerType} from "./MyPostsContainer";
-import {useForm} from "react-hook-form";
+import {Form} from "../../common/Form";
 
-// type MyPostsType = {
-//     postsData: Array<MyPostPropsType>
-//     onPostChange: (newMessage: string) => void
-//     addPost: () => void
-//     value: string
-// }
-//
-// type MyPostPropsType = {
-//     id: string
-//     message: string
-//     likesCount: number
-// }
 
 export const MyPosts: React.FC<PostsContainerType> = (props) => {
 
-    const {
-        register, handleSubmit, formState: {
-            errors
-        }
-    } = useForm()
+
 
     let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={p.likesCount}/>)
 
-    const onClickHandler = () => {
-        props.addPost()
-    }
-    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.onPostChange(e.currentTarget.value)
-    }
-
-    const onSubmit = (data: any) => {
-        console.log(data)
+    const onClickHandler = (newPost: string) => {
+        props.addPost(newPost)
     }
 
     return (
@@ -43,14 +20,8 @@ export const MyPosts: React.FC<PostsContainerType> = (props) => {
             <h3>My posts</h3>
             <div>
                 <div>
-                    <textarea value={props.value} onChange={onPostChange}></textarea>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <textarea {...register('userPost')} placeholder={'Input new post'} ></textarea>
-                        <input type="submit"/>
-                    </form>
+                    <Form sendMessage={onClickHandler}/>
                 </div>
-                <button onClick={onClickHandler}>Add post</button>
-                <button>Remove post</button>
             </div>
 
             {postsElement}

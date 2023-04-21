@@ -2,9 +2,8 @@ import {v1} from "uuid";
 import {AddPostACType, profile_Reducer, setUsersACType, UpdateNewPostTextACType} from "./profile-reducer";
 import {
     AddMessageACType,
-
     dialogs_Reducer,
-    UpdateNewMessageACType,
+    // UpdateNewMessageACType,
 } from "./dialogs-reducer";
 
 type RootStateType = {
@@ -49,7 +48,7 @@ type SidebarType = {
     bestFriend: BestFriendsType[]
 }
 
-export type AllActionTypes = AddMessageACType | UpdateNewMessageACType | AddPostACType | UpdateNewPostTextACType // типизация приходит из reducer-ов, и тут мы её соединяем, и передаём дальше в методе dispatch
+export type AllActionTypes = AddMessageACType | AddPostACType | UpdateNewPostTextACType // типизация приходит из reducer-ов, и тут мы её соединяем, и передаём дальше в методе dispatch
 
 export type StoreStateType = {
     _state: RootStateType
@@ -59,10 +58,6 @@ export type StoreStateType = {
     dispatch: (action: AllActionTypes) => void
 }
 
-// const ADD_POST = 'ADD-POST' // не сработала фича с константой
-// const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT' // не сработала фича с константой
-// const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT'
-// const ADD_MESSAGE = 'ADD-MESSAGE'
 
 export let store: StoreStateType = {
     _state: {
@@ -160,13 +155,4 @@ export let store: StoreStateType = {
     },
 }
 
-// функции для создания Action. ОБЯЗАТЕЛЬНО НУЖНО В КОНЦЕ СОЗДАНИЯ ACTION СТАВИТЬ AS CONST!!!! Это для создания константы. Если не будет константа, то диспатч не отреагирует, и выдаст ошибку!!!!!
-
-
-// export const addPostActionCreator = () => ({type: ADD_POST} as const)
-// export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
-
-
-// export const addMessageAC = () => ({type: ADD_MESSAGE} as const)
-// export const updateNewMessageAC = (newMessage: string) => ({type: UPDATE_NEW_MESSAGE_TEXT, newMessage} as const)
 // пример технического английского: updateNewMessageBodyCreator - создатель обновления нового сообщения тела, т.к. newMessage, body, creator - это существительные, то читается от последнего существительного, и потом идём читать в начало.

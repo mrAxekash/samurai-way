@@ -1,46 +1,10 @@
 import React from "react";
-import {addPostActionCreator, PostsType, updateNewPostTextActionCreator} from "../../../redux/profile-reducer";
+import {addPostActionCreator, PostsType} from "../../../redux/profile-reducer";
 import {AllActionTypes} from "../../../redux/store";
 import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
 import {RootReducersType} from "../../../redux/redux-store";
 
-// type MyPostsType = {
-//     postsData: Array<MyPostPropsType>
-//     dispatch: (action: AllActionTypes) => void
-//     newPostText: string
-// }
-
-
-// type MyPostPropsType = {
-//     id: string
-//     message: string
-//     likesCount: number
-// }
-
-// export const MyPostsContainer = () => {
-//
-//     return <StoreContext.Consumer>
-//             {(store: any) => {
-//                     const addPost = () => {
-//                         store.dispatch(addPostActionCreator())
-//                     }
-//                     const onPostChange = (newMessage: string) => {
-//                         let action = updateNewPostTextActionCreator(newMessage)
-//                         store.dispatch(action)
-//                     }
-//
-//                     return (
-//                         <MyPosts
-//                             onPostChange={onPostChange}
-//                             addPost={addPost}
-//                             postsData={store.getState().profilePage.posts}
-//                             value={store.getState().profilePage.newPostText}/>
-//                     )
-//                 }
-//             }
-//         </StoreContext.Consumer>
-// }
 
 export type MapStatePropsType = {
     postsData: PostsType[]
@@ -48,8 +12,7 @@ export type MapStatePropsType = {
 }
 
 export type MapDispatchPropsType = {
-    onPostChange: (newMessage: string) => void
-    addPost: () => void
+    addPost: (newPost: string) => void
 }
 export type PostsContainerType = MapStatePropsType & MapDispatchPropsType
 const mapStateToProps = (state: RootReducersType): MapStatePropsType => {
@@ -61,13 +24,9 @@ const mapStateToProps = (state: RootReducersType): MapStatePropsType => {
 
 const mapDispatchToProps = (dispatch: (action: AllActionTypes) => void): MapDispatchPropsType => {
     return {
-        onPostChange: (newMessage: string) => {
-            let action = updateNewPostTextActionCreator(newMessage)
-            dispatch(action)
+        addPost: (newPost: string) => {
+            dispatch(addPostActionCreator(newPost))
         },
-        addPost: () => {
-            dispatch(addPostActionCreator())
-        }
     }
 }
 

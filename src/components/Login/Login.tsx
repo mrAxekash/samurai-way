@@ -36,22 +36,26 @@ const LoginForm = () => {
     })
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
+        debugger
         const {email, password, rememberMe} = data
         dispatch(loginUserTC(email, password, rememberMe) as any)
+        console.log(data)
     }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <input
-                    {...register('email', {required: 'This place is required'})} type="email"
+                    {...register('email', {required: 'This place is required', })} type="email"
                     placeholder={'Email or user name'}/>
                 <p>{errors.email?.message}</p>
             </div>
             <div>
                 <input
                     {...register('password', {
-                        required: 'This place is required', minLength: {value: 4, message: 'Min length is 4'}
+                        required: 'This place is required',
+                        minLength: {value: 4, message: 'Min length is 4'},
+                        pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
                     })} type="password" placeholder={'Password'}/>
                 <p>{errors.password?.message}</p>
             </div>

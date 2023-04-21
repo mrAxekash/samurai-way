@@ -66,10 +66,10 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
         case ADD_POST: {
             const newPost: PostsType = {
                 id: v1(),
-                message: state.newPostText,
+                message: action.newPost,
                 likesCount: 0
             }
-            return {...state, posts: [...state.posts, newPost], newPostText: ''}
+            return {...state, posts: [...state.posts, newPost],}
         }
         case UPDATE_NEW_POST_TEXT: {
             return {...state, newPostText: state.newPostText = action?.newText || ''}
@@ -89,7 +89,7 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
 }
 
 export type AddPostACType = ReturnType<typeof addPostActionCreator>
-export const addPostActionCreator = () => ({type: ADD_POST} as const)
+export const addPostActionCreator = (newPost: string) => ({type: ADD_POST, newPost} as const)
 
 export type UpdateNewPostTextACType = ReturnType<typeof updateNewPostTextActionCreator>
 export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
@@ -129,6 +129,5 @@ export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
             if(res.data.resultCode === 0) {
                 dispatch(setUserStatusAC(status))
             }
-
         })
 }

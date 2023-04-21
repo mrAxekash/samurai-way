@@ -1,18 +1,18 @@
 import React from "react";
-import {addMessageAC, DialogsPageType, updateNewMessageAC} from "../../redux/dialogs-reducer";
+import {addMessageAC, DialogsPageType} from "../../redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {RootReducersType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {compose, Dispatch} from "redux";
 import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
+import {AllActionTypes} from "../../redux/store";
 
 
 export type MapStatePropsType = {
     dialogsPage: DialogsPageType
 }
 export type MapDispatchPropsType = {
-    addSendMessage: () => void
-    addNewMessage: (newMessage: string) => void
+    addSendMessage: (newPostMessage: string) => void
 }
 
 export type StateDialogsPropsType = MapStatePropsType & MapDispatchPropsType
@@ -23,13 +23,10 @@ const mapStateToProps = (state: RootReducersType): MapStatePropsType => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch): MapDispatchPropsType => {
+const mapDispatchToProps = (dispatch: Dispatch<AllActionTypes>): MapDispatchPropsType => {
     return {
-        addSendMessage: () => {
-            dispatch(addMessageAC())
-        },
-        addNewMessage: (newMessage: string) => {
-            dispatch(updateNewMessageAC(newMessage))
+        addSendMessage: (newPostMessage: string) => {
+            dispatch(addMessageAC(newPostMessage))
         }
     }
 }
