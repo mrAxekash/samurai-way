@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {FieldValues, SubmitHandler, useForm} from "react-hook-form";
+import style from "./Form.module.css";
 
 type Props = {
     sendMessage: (newMessage: string) => void
@@ -8,20 +9,43 @@ type Props = {
 export const Form = (props: Props) => {
 
     const {
-        register, handleSubmit, formState: {
+        register,
+        handleSubmit,
+        formState: {
             errors
-        }
-    } = useForm()
+        },
+        reset,
+    } = useForm({
+        mode:"all",
+        defaultValues: {
+            userPost: '',
+        },
+        // criteriaMode: 'all'
+    })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data ) => {
+    const onSubmitMessage: SubmitHandler<FieldValues> = (data) => {
         props.sendMessage(data.userPost)
+        reset()
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <textarea {...register('userPost')} placeholder={'Input new post'} ></textarea>
-            <input type="submit"/>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit(onSubmitMessage)}
+                  // onBlur={handleSubmit(onSubmitMessage)}
+            >
+                <textarea className={ errors.userPost ? style.errorForm : ''}
+                    {...register('userPost', {
+                        required: true,
+                        maxLength: {
+                            value: 1000,
+                            message: 'This area exceed max length 1000'
+                        },
+                    })}
+                    placeholder={'Input new post'}></textarea>
+                <p className={errors.userPost && style.errorMessage }>{errors.userPost && errors.userPost.message}</p>
+                <input type="submit"  />
+            </form>
+        </div>
     );
 };
 
