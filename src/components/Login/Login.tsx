@@ -1,18 +1,26 @@
 import * as React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form"
-import {loginUserTC} from "../../redux/auth-reducer";
-import {useDispatch} from "react-redux";
+import {InitialStateType, loginUserTC} from "../../redux/auth-reducer";
+import {useDispatch, useSelector} from "react-redux";
 import styles from './Login.module.css'
+import {RootReducersType} from "../../redux/redux-store";
+import {Redirect} from "react-router-dom";
 
 export type Inputs = {
     email: string
     password: string
     rememberMe: boolean
-    age: any
 }
 
 type Props = {};
+
 export const Login = (props: Props) => {
+
+    const isAuth = useSelector<RootReducersType, boolean>(state => state.auth.isAuth)
+
+    if (isAuth) {
+        return <Redirect to={'/profile'}/>
+    }
     return (
         <div>
             <h1>LOGIN</h1>
@@ -41,12 +49,12 @@ const LoginForm = () => {
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         const {email, password, rememberMe} = data
-        dispatch(loginUserTC(email, password, rememberMe) as any)
+        dispatch(loginUserTC(email, password, rememberMe) as any) // as any это заглушка
         reset()
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} >
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <input
                     {...register('email', {
@@ -54,12 +62,13 @@ const LoginForm = () => {
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                             message: 'Uncorrected email'
-                        }})}
+                        }
+                    })}
                     type="email"
                     placeholder={'Email or user name'}
                     className={errors.email ? errors.email.message && styles.errorForm : ''}
                 />
-                <p className={errors.email && styles.errorMessage} >{errors.email?.message}</p>
+                <p className={errors.email && styles.errorMessage}>{errors.email?.message}</p>
             </div>
             <div>
                 <input

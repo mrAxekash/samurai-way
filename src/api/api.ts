@@ -31,9 +31,11 @@ export const authAPI = {
                 return response.data
             })
     },
-    login(email: string, password: string, rememberMe: boolean) {
-        console.log('authAPI.login is render')
-       return instance.post('auth/login', {email, password, rememberMe})
+    login(email: string, password: string, rememberMe: boolean = false) {
+       return instance.post<ResponseType<{userId: number}>>('auth/login', {email, password, rememberMe})
+    },
+    logout() {
+        return instance.delete<ResponseType>('auth/login')
     }
 }
 
@@ -47,6 +49,12 @@ export const profileAPI = {
     updateStatus(status: string) {
         return instance.put('profile/status', {status})
     }
+}
+
+type ResponseType<T = {}> = {
+    resultCode: number
+    message: string[]
+    data: T
 }
 
 
