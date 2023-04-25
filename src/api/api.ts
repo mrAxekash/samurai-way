@@ -53,7 +53,7 @@ export const profileAPI = {
 
 type ResponseType<T = {}> = {
     resultCode: number
-    message: string[]
+    messages: string[]
     data: T
 }
 

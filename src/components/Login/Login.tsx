@@ -24,20 +24,26 @@ export const Login = (props: Props) => {
     return (
         <div>
             <h1>LOGIN</h1>
-            <LoginForm/>
+            <LoginForm />
         </div>
-
     );
 };
 
-const LoginForm = () => {
+
+type LoginFormType = {
+    // isAuth: boolean
+    // error: string
+}
+const LoginForm = (props: LoginFormType) => {
     const dispatch = useDispatch()
+    const authErrorMessage = useSelector<RootReducersType, string | null>(state => state.auth.error)
 
     const {
         register,
         formState: {errors},
         handleSubmit,
-        reset
+        reset,
+        setError
     } = useForm<Inputs>({
         mode: 'onBlur',
         defaultValues: {
@@ -85,6 +91,8 @@ const LoginForm = () => {
                 />
                 <p className={errors.password && styles.errorMessage}>{errors.password?.message}</p>
             </div>
+            { authErrorMessage &&  <div className={styles.serverResponseError}> {authErrorMessage}  </div>}
+
             <div>
                 <input {...register('rememberMe')} type="checkbox"/> Remember me
             </div>

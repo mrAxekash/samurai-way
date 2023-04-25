@@ -5,3 +5,9 @@
 .errorForm {
     border: 2px solid red;
 }
+
+.serverResponseError {
+    color: red;
+    border: 3px solid red;
+    max-width: 20vw
+}
