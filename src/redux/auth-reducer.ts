@@ -1,5 +1,7 @@
-import {Dispatch} from "redux";
+import {Action, AnyAction, Dispatch} from "redux";
 import {authAPI} from "../api/api";
+import {ThunkAction} from "redux-thunk";
+import {RootReducersType, RootStateType} from "./redux-store";
 
 export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType): InitialStateType => {
     switch (action.type) {
@@ -11,11 +13,11 @@ export const auth_Reducer = (state: InitialStateType = initialState, action: Aut
         }
     }
 }
-
+//:ThunkAction<any, RootReducersType, unknown, AnyAction>
 // thunks
-export const authThunkCreator = () => {
+export const authThunkCreator = () : ThunkAction<any, RootReducersType, unknown, AnyAction> => {
     return (dispatch: Dispatch) => {
-        authAPI.getAuth()
+        return authAPI.getAuth()
             .then((data => {
                         if (data.resultCode === 0) {
                             const {id, email, login} = data.data
@@ -35,12 +37,9 @@ export const loginUserTC = (email: string, password: string, rememberMe: boolean
                     dispatch(authThunkCreator() as any) //заглушка
                 } else {
                     if(res.data.messages.length > 0) {
-                        debugger
                         dispatch(setAuthUser(null, null,  null, false, res.data.messages[0]))
                     }
                 }
-
-
             })
     }
 }

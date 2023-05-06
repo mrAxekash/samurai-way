@@ -73,7 +73,9 @@ type MapDispatchToPropsType = {
     getUsersReduxThunk: (pageSize: number, currentPage: number) => void
 }
 
-export default compose<React.FC>(WithAuthRedirect, connect(mapStateToProps, {
+export default compose<React.FC>(
+    //WithAuthRedirect,
+    connect(mapStateToProps, {
     follow: follow,
     unfollow: unfollow,
     setUsers: setUsersAC,

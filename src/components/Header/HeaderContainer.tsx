@@ -7,9 +7,9 @@ import {RootReducersType} from "../../redux/redux-store";
 
 
 class HeaderContainer extends React.Component<AuthStateType> {
-    componentDidMount() {
-        this.props.authThunkCreator()
-    }
+    // componentDidMount() {
+    //     this.props.authThunkCreator()
+    // }
 
     render() {
         return (<>

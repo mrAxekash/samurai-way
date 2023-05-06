@@ -2,14 +2,19 @@ import React from "react";
 import styles from './Navbar.module.css';
 import {NavLink} from "react-router-dom";
 import {Sidebar} from "./Sidebar";
-import {BestFriendsType} from "../../redux/sidebar-reducer";
+import {BestFriendsType, SidebarType} from "../../redux/sidebar-reducer";
+import {useSelector} from "react-redux";
+import {RootReducersType} from "../../redux/redux-store";
 
 
 
 type NavBarType = {
-    friends: BestFriendsType[]
+
 }
 export const Navbar: React.FC<NavBarType> = (props) => {
+
+    const friends = useSelector<RootReducersType, BestFriendsType[]>(state => state.sidebar.bestFriend)
+
     //NavLink нужен для изменения адресной строки в браузере, чтобы потом компонента route отрисовала нужную компоненту по адресу
     return (
         <aside>
@@ -51,7 +56,7 @@ export const Navbar: React.FC<NavBarType> = (props) => {
                     </NavLink>
                 </div>
             </nav>
-            <Sidebar friends={props.friends}/>
+            <Sidebar friends={friends}/>
         </aside>
 
     )

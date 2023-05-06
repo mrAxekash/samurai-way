@@ -91,7 +91,7 @@ const LoginForm = (props: LoginFormType) => {
                 />
                 <p className={errors.password && styles.errorMessage}>{errors.password?.message}</p>
             </div>
-            { authErrorMessage &&  <div className={styles.serverResponseError}> {authErrorMessage}  </div>}
+            { authErrorMessage &&  <div className={styles.serverResponseError}> {authErrorMessage}  </div> }
 
             <div>
                 <input {...register('rememberMe')} type="checkbox"/> Remember me
