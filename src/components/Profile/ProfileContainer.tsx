@@ -24,26 +24,28 @@ class ProfileContainer extends React.Component<RouterPropsType> {
 
 
     componentDidMount() {
-        let userId = !this.props.match.params.userId ? '27215' :
-            this.props.match.params.userId
+        // let userId = !this.props.match.params.userId ? '27215' :
+        //     this.props.match.params.userId
 
         // let userId = !this.props.match.params.userId ? '27215' :
         //     this.props.match.params.userId
 
 
         //? this.props.history.push('/login') :
-        // let userId = this.props.match.params.userId
-        // if(!userId) {
-        //     userId = this.props.
-        //     if(!userId) {
-        //         this.props.history.push('/login')
-        //     }
-        // }
+
+        let userId = this.props.match.params.userId
+        if(!userId) {
+            userId = this.props.authorisedUserId + ''
+            // if(!userId) {
+            //     this.props.history.push('/login')
+            // }
+        }
         this.props.profileThunkCreator(+userId)
         this.props.setUserStatus(+userId)
     }
 
     render() {
+
         return (
             <>
                 <Profile {...this.props.profile} updateUserStatus={this.props.updateUserStatus}/>
@@ -54,6 +56,8 @@ class ProfileContainer extends React.Component<RouterPropsType> {
 
 type MapStateToPropsType = {
     profile: ProfilePageType
+    authorisedUserId: number | null
+
 }
 
 type MapDispatchToPropsType = {
@@ -66,6 +70,7 @@ type MapDispatchToPropsType = {
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
     return {
         profile: state.profilePage,
+        authorisedUserId: state.auth.id
     }
 }
 
