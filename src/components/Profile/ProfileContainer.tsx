@@ -36,6 +36,9 @@ class ProfileContainer extends React.Component<RouterPropsType> {
         let userId = this.props.match.params.userId
         if(!userId) {
             userId = this.props.authorisedUserId + ''
+            if(!userId) {
+                this.props.history.push('/login')
+            }
             // if(!userId) {
             //     this.props.history.push('/login')
             // }

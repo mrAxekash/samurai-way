@@ -6,7 +6,6 @@ import {RootReducersType, RootStateType} from "./redux-store";
 export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType): InitialStateType => {
     switch (action.type) {
         case 'COMPLETE-AUTH-USER': {
-            debugger
             return {...state, ...action.payload, isAuth: action.payload.isAuth, id: action.payload.id, error: action.payload.error}
         }
         default: {
@@ -20,7 +19,6 @@ export const authThunkCreator = () : ThunkAction<any, RootReducersType, unknown,
     return (dispatch: Dispatch) => {
         return authAPI.getAuth()
             .then((data => {
-                debugger
                         if (data.resultCode === 0) {
                             const {id, email, login} = data.data
                             dispatch(setAuthUser(id, email, login, true, ''))
