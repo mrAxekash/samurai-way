@@ -48,7 +48,7 @@ class ProfileContainer extends React.Component<RouterPropsType> {
     }
 
     render() {
-
+        console.log('render mapStateToProps Profile')
         return (
             <>
                 <Profile {...this.props.profile} updateUserStatus={this.props.updateUserStatus}/>
@@ -71,6 +71,7 @@ type MapDispatchToPropsType = {
 }
 
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
+    console.log('MapStateToProps change profile')
     return {
         profile: state.profilePage,
         authorisedUserId: state.auth.id
