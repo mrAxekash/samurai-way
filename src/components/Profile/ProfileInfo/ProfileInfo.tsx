@@ -2,6 +2,7 @@ import React from "react";
 import classes from './ProfileInfo.module.css';
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {ProfileStatus} from "./ProfileStatus";
+import { ProfileStatusFC } from "./ProfileStatusFC";
 
 
 type ProfileInfoType = {
@@ -22,7 +23,8 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 <div>
                     <h2>{props.profile.fullName}</h2>
                 </div>
-                <ProfileStatus
+
+                <ProfileStatusFC
                     userStatus={props.status} updateUserStatus={props.updateUserStatus}/>
                 <div>
                     About me: {props.profile.aboutMe}
