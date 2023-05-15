@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 
 
 type ProfileStatusPropsType = {
@@ -11,6 +11,10 @@ export const ProfileStatusFC = (props: ProfileStatusPropsType) =>  {
 
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.userStatus)
+
+    useEffect(() => {
+        setStatus(props.userStatus)
+    }, [props.userStatus])
 
     // в объекте для изменения стейта внутри объекта есть метод setState. Сам метод асинхронен, т.е. снаачла отработает функция, и отправит данные для изменения стейта в event loop. Затем, когда цикл дойдёт до выполнения этой задачи, выполнится функция, что приведет к изменению данных, и начнётся перерисовка React-ом приложения.
 
