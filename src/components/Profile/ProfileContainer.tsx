@@ -48,7 +48,6 @@ class ProfileContainer extends React.Component<RouterPropsType> {
     }
 
     render() {
-        console.log('render mapStateToProps Profile')
         return (
             <>
                 <Profile {...this.props.profile} updateUserStatus={this.props.updateUserStatus}/>

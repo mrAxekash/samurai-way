@@ -5,11 +5,11 @@ import {PostsContainerType} from "./MyPostsContainer";
 import {Form} from "../../common/Form";
 
 
-export const MyPosts = React.memo ((props: PostsContainerType) => {
-
+export function MyPosts(props: PostsContainerType) {
     console.log('RENDER MY POSTS')
+    console.log(props)
 
-    let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={p.likesCount}/>)
+    let postsElement = [...props.postsData].reverse().map(p => <Post key={p.id} message={p.message} likes={p.likesCount}/>)
 
     const onClickHandler = (newPost: string) => {
         props.addPost(newPost)
@@ -28,4 +28,4 @@ export const MyPosts = React.memo ((props: PostsContainerType) => {
             {/*тут сидят компоненты, которые поочередно проходят через map и преобразуются с учётом полученных значений из BLL*/}
         </div>
     )
-});
+}
