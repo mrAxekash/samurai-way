@@ -15,6 +15,7 @@ export type MapDispatchPropsType = {
     addPost: (newPost: string) => void
 }
 export type PostsContainerType = MapStatePropsType & MapDispatchPropsType
+
 const mapStateToProps = (state: RootReducersType): MapStatePropsType => {
     return {
         postsData: state.profilePage.posts,

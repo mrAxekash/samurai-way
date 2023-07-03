@@ -5,9 +5,9 @@ import {PostsContainerType} from "./MyPostsContainer";
 import {Form} from "../../common/Form";
 
 
-export const MyPosts: React.FC<PostsContainerType> = (props) => {
+export const MyPosts = React.memo ((props: PostsContainerType) => {
 
-
+    console.log('RENDER MY POSTS')
 
     let postsElement = props.postsData.map(p => <Post key={p.id} message={p.message} likes={p.likesCount}/>)
 
@@ -28,4 +28,4 @@ export const MyPosts: React.FC<PostsContainerType> = (props) => {
             {/*тут сидят компоненты, которые поочередно проходят через map и преобразуются с учётом полученных значений из BLL*/}
         </div>
     )
-}
+});
