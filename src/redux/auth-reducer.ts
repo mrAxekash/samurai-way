@@ -6,7 +6,12 @@ import {RootReducersType, RootStateType} from "./redux-store";
 export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType): InitialStateType => {
     switch (action.type) {
         case 'COMPLETE-AUTH-USER': {
-            return {...state, ...action.payload, isAuth: action.payload.isAuth, id: action.payload.id, error: action.payload.error}
+            return {
+                ...state, ...action.payload,
+                isAuth: action.payload.isAuth,
+                id: action.payload.id,
+                error: action.payload.error
+            }
         }
         default: {
             return state
@@ -15,42 +20,34 @@ export const auth_Reducer = (state: InitialStateType = initialState, action: Aut
 }
 //:ThunkAction<any, RootReducersType, unknown, AnyAction>
 // thunks
-export const authThunkCreator = () : ThunkAction<any, RootReducersType, unknown, AnyAction> => {
-    return (dispatch: Dispatch) => {
-        return authAPI.getAuth()
-            .then((data => {
-                        if (data.resultCode === 0) {
-                            const {id, email, login} = data.data
-                            dispatch(setAuthUser(id, email, login, true, ''))
-                        }
-                    }
-                )
-            )
+export const authThunkCreator = (): ThunkAction<any, RootReducersType, unknown, AnyAction> => {
+    return async (dispatch: Dispatch) => {
+        const data = await authAPI.getAuth()
+        if (data.resultCode === 0) {
+            const {id, email, login} = data.data
+            dispatch(setAuthUser(id, email, login, true, ''))
+        }
     }
 }
 
 export const loginUserTC = (email: string, password: string, rememberMe: boolean) => {
-    return (dispatch: Dispatch) => {
-        authAPI.login(email, password, rememberMe)
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    dispatch(authThunkCreator() as any) //заглушка
-                } else {
-                    if(res.data.messages.length > 0) {
-                        dispatch(setAuthUser(null, null,  null, false, res.data.messages[0]))
-                    }
-                }
-            })
+    return async (dispatch: Dispatch) => {
+        const res = await authAPI.login(email, password, rememberMe)
+        if (res.data.resultCode === 0) {
+            dispatch(authThunkCreator() as any) //заглушка
+        } else {
+            if (res.data.messages.length > 0) {
+                dispatch(setAuthUser(null, null, null, false, res.data.messages[0]))
+            }
+        }
     }
 }
 
-export const logOutTC = () => (dispatch: Dispatch) => {
-    authAPI.logout()
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(setAuthUser(null, null, null, false, ''))
-            }
-        })
+export const logOutTC = () => async (dispatch: Dispatch) => {
+    const res = await authAPI.logout()
+    if (res.data.resultCode === 0) {
+        dispatch(setAuthUser(null, null, null, false, ''))
+    }
 }
 
 // action creators
