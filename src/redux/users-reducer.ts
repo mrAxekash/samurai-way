@@ -1,5 +1,8 @@
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
+import {promises} from "dns";
+import {AxiosPromise} from "axios";
+import {updateObjectInArray} from "../utils/object-helper";
 
 export type InitialStateType = {
     users: UserStateType[]
@@ -48,7 +51,7 @@ export type AllUsersType =
 type FollowACType = ReturnType<typeof followAC>
 export const followAC = (userID: number) => {
     return {
-        type: 'FOLLOW',
+        type: 'users/FOLLOW',
         payload: {
             userID
         }
@@ -58,7 +61,7 @@ export const followAC = (userID: number) => {
 type UnfollowACType = ReturnType<typeof unfollowAC>
 export const unfollowAC = (userID: number) => {
     return {
-        type: 'UNFOLLOW',
+        type: 'users/UNFOLLOW',
         payload: {
             userID
         }
@@ -68,7 +71,7 @@ export const unfollowAC = (userID: number) => {
 type SetUsersACType = ReturnType<typeof setUsersAC>
 export const setUsersAC = (users: UserStateType[]) => {
     return {
-        type: 'SET-USERS',
+        type: 'users/SET-USERS',
         payload: {
             users
         }
@@ -78,7 +81,7 @@ export const setUsersAC = (users: UserStateType[]) => {
 type SetChangeUsersPageACType = ReturnType<typeof setChangeUsersPageAC>
 export const setChangeUsersPageAC = (newUsersPage: number) => {
     return {
-        type: 'CHANGE-USERS-PAGE',
+        type: 'users/CHANGE-USERS-PAGE',
         payload: {
             newUsersPage
         }
@@ -88,7 +91,7 @@ export const setChangeUsersPageAC = (newUsersPage: number) => {
 type SetTotalUsersCountType = ReturnType<typeof setTotalUsersCountAC>
 export const setTotalUsersCountAC = (totalUsersCount: number) => {
     return {
-        type: 'SET-TOTAL-USERS-COUNT',
+        type: 'users/SET-TOTAL-USERS-COUNT',
         payload: {
             totalUsersCount
         }
@@ -98,7 +101,7 @@ export const setTotalUsersCountAC = (totalUsersCount: number) => {
 type IsFetchingACType = ReturnType<typeof isFetchingAC>
 export const isFetchingAC = (fetching: boolean) => {
     return {
-        type: 'CHANGE-FETCHING',
+        type: 'users/CHANGE-FETCHING',
         payload: {
             fetching
         }
@@ -108,7 +111,7 @@ export const isFetchingAC = (fetching: boolean) => {
 type FollowingInProgressACType = ReturnType<typeof followingInProgressAC>
 export const followingInProgressAC = (isFething: boolean, userId: number) => {
     return {
-        type: 'FOLLOW-IN-PROGRESS',
+        type: 'users/FOLLOW-IN-PROGRESS',
         payload: {
             isFething, userId
         }
@@ -117,32 +120,32 @@ export const followingInProgressAC = (isFething: boolean, userId: number) => {
 
 export const users_Reducer = (state: InitialStateType = initialState, action: AllUsersType): InitialStateType => {
     switch (action.type) {
-        case 'FOLLOW': {
+        case 'users/FOLLOW': {
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.payload.userID ? {...user, followed: true} : user)
+                users: updateObjectInArray(state.users, action.payload.userID, {followed: true}, 'id' )
             }
         }
-        case 'UNFOLLOW': {
+        case 'users/UNFOLLOW': {
             return {
                 ...state,
-                users: state.users.map(user => user.id === action.payload.userID ? {...user, followed: false} : user)
+                users: updateObjectInArray(state.users, action.payload.userID, {followed: false}, 'id')
             }
         }
-        case 'SET-USERS': {
+        case 'users/SET-USERS': {
 
             return {...state, users: action.payload.users}
         }
-        case 'CHANGE-USERS-PAGE': {
+        case 'users/CHANGE-USERS-PAGE': {
             return {...state, currentPage: action.payload.newUsersPage}
         }
-        case 'SET-TOTAL-USERS-COUNT': {
+        case 'users/SET-TOTAL-USERS-COUNT': {
             return {...state, totalUsersCount: action.payload.totalUsersCount}
         }
-        case "CHANGE-FETCHING": {
+        case "users/CHANGE-FETCHING": {
             return {...state, isFetching: action.payload.fetching}
         }
-        case 'FOLLOW-IN-PROGRESS': {
+        case 'users/FOLLOW-IN-PROGRESS': {
             return {
                 ...state,
                 followingInProgress: action.payload.isFething ? [...state.followingInProgress, action.payload.userId] : state.followingInProgress.filter(userId => userId !== action.payload.userId)
@@ -166,7 +169,7 @@ export const getUsersReduxThunk = (pageSize: number, currentPage: number) => {
 }
 
 
-const followUnfollowMethod = async (dispatch: Dispatch, userId: number, apiMethod: any, actionCreator: any ) => {
+const followUnfollowMethod = async (dispatch: Dispatch, userId: number, apiMethod: (userId: number) => AxiosPromise, actionCreator: (userId: number) => FollowACType | UnfollowACType) => {
 
     dispatch(followingInProgressAC(true, userId))
     const response = await apiMethod(userId)
@@ -178,7 +181,7 @@ const followUnfollowMethod = async (dispatch: Dispatch, userId: number, apiMetho
 }
 export const follow = (userId: number) => {
     return async (dispatch: Dispatch) => {
-    followUnfollowMethod(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowAC )
+        followUnfollowMethod(dispatch, userId, usersAPI.unfollow.bind(usersAPI), unfollowAC)
 
         // dispatch(followingInProgressAC(true, userId))
         //
@@ -192,7 +195,6 @@ export const follow = (userId: number) => {
 
 export const unfollow = (userId: number) => {
     return async (dispatch: Dispatch) => {
-
         followUnfollowMethod(dispatch, userId, usersAPI.follow.bind(usersAPI), followAC)
         // dispatch(followingInProgressAC(true, userId))
         // const response = await usersAPI.follow(userId)

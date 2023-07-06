@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {SubmitHandler, useForm} from "react-hook-form"
-import {InitialStateType, loginUserTC} from "../../redux/auth-reducer";
+import {loginUserTC} from "../../redux/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import styles from './Login.module.css'
 import {RootReducersType} from "../../redux/redux-store";
@@ -24,7 +24,7 @@ export const Login = (props: Props) => {
     return (
         <div>
             <h1>LOGIN</h1>
-            <LoginForm />
+            <LoginForm/>
         </div>
     );
 };
@@ -91,7 +91,7 @@ const LoginForm = (props: LoginFormType) => {
                 />
                 <p className={errors.password && styles.errorMessage}>{errors.password?.message}</p>
             </div>
-            { authErrorMessage &&  <div className={styles.serverResponseError}> {authErrorMessage}  </div> }
+            {authErrorMessage && <div className={styles.serverResponseError}> {authErrorMessage}  </div>}
 
             <div>
                 <input {...register('rememberMe')} type="checkbox"/> Remember me
