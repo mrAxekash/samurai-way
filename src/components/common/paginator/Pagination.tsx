@@ -1,17 +1,15 @@
 import * as React from 'react';
 import style from './Pagination.module.css'
-import {Preloader} from "../../../components/common/preloader/Preloader";
 
 type Props = {
     totalUsersCount: number
     pageSize: number
     currentPage: number
-    isFetching: boolean
     onPageChanged: (page: number) => void
 };
 
 export const Pagination = (props: Props) => {
-    const {totalUsersCount, pageSize, isFetching, currentPage, onPageChanged} = props
+    const {totalUsersCount, pageSize, currentPage, onPageChanged} = props
 
     let pagesCount: number = Math.ceil(totalUsersCount / pageSize)
 

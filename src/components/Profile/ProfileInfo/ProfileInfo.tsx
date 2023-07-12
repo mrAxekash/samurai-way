@@ -12,13 +12,8 @@ type ProfileInfoType = {
     updateUserStatus: (status: string) => void
 }
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
-    console.log('PROFILEINFO RENDER')
-    console.log(props)
     return (
         <div>
-            {/*<div className={classes.profile_imgWrapper}>*/}
-            {/*    <img src={props.imageLink} alt="image"/>*/}
-            {/*</div>*/}
             <div className={classes.profileDescription}>
                 <img src={props.profile.photos?.large ? props.profile.photos.large : '#' } alt="#"/>
 

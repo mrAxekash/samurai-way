@@ -40,7 +40,7 @@ export const Users = (props: Props) => {
             {props.isFetching ? <Preloader/> : null}
 
             <Pagination pageSize={pageSize} currentPage={currentPage} onPageChanged={onPageChanged}
-                        isFetching={isFetching} totalUsersCount={totalUsersCount}/>
+                        totalUsersCount={totalUsersCount}/>
 
             <h2>Users</h2>
 

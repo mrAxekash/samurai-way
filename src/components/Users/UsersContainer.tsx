@@ -11,7 +11,6 @@ import {
 import React from "react";
 import {Users} from "./Users";
 import {compose} from "redux";
-import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import {
     getCurrentPage, getFollowingInProgress,
     getIsFetching,
@@ -25,13 +24,15 @@ export type AllUsersStateType = MapStateToPropsType & MapDispatchToPropsType
 class UsersAPIContainer extends React.Component<AllUsersStateType> {
 
     componentDidMount() {
-        this.props.getUsersReduxThunk(this.props.pageSize, this.props.currentPage)
+        const {pageSize, currentPage} = this.props;
+        this.props.getUsersReduxThunk(pageSize, currentPage)
     }
+
 
     onPageChanged = (p: number) => {
-        this.props.getUsersReduxThunk(this.props.pageSize, p)
+        const {pageSize} = this.props
+        this.props.getUsersReduxThunk(pageSize, p)
     }
-
     render() {
         return (
             <Users
