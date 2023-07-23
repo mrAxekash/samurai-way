@@ -4,15 +4,14 @@ import {Navbar} from "./components/Navbar/Navbar";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import { Route} from "react-router-dom";
-import {RootReducersType} from "./redux/redux-store";
-import {connect} from "react-redux";
+import {BrowserRouter, Route} from "react-router-dom";
+import {RootReducersType, store} from "./redux/redux-store";
+import {connect, Provider} from "react-redux";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import Dialogs from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import {authThunkCreator} from "./redux/auth-reducer";
 import {compose} from "redux";
 import {Preloader} from "./components/common/preloader/Preloader";
 import {initialised} from "./redux/app-reducer";
@@ -68,7 +67,16 @@ class App extends React.Component<AllAppActionsType> {
     }
 }
 
-export default compose(
+const AppContainer = compose(
     //withRouter,
     connect(mapStateToProps, {initialisedApp: initialised} )) (App) ;
 
+export const SamuraiJSApp = () => {
+    return (
+        <BrowserRouter>
+            <Provider store={store}>
+                <AppContainer/>
+            </Provider>
+        </BrowserRouter>
+    )
+}

@@ -84,7 +84,7 @@ const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
 //             dispatch(setUsersProfileAC(userProfile))
 //         },
 //         profileThunkCreator: profileThunkCreator,
-//         setUserStatus: profileStatusTC
+//         setUserStatus: profileStaretusTC
 //     }
 // }
 
