@@ -56,7 +56,7 @@ test('testing user-reducer', () => {
         currentPage: 1,
         isFetching: false,
         followingInProgress: [],
-        totalUsersCount: 10
+        totalUsersCount: 10,
     }
 
     let newState = users_Reducer(initialState, followAC(3))

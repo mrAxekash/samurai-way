@@ -14,9 +14,11 @@ const getPageSize = (state: RootReducersType) => {
 	return state.usersPage.pageSize
 }
 
+
 export const pageSize = createSelector(getPageSize, (pageSize: number) => {
 	return pageSize
 })
+
 
 export const getTotalUsersCount = (state: RootReducersType) => {
 	return state.usersPage.totalUsersCount

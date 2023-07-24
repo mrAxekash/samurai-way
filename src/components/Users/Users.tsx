@@ -1,12 +1,9 @@
 import * as React from 'react';
-import style from './Users.module.css'
-import {follow, unfollow, unfollowAC, UserStateType} from "../../redux/users-reducer";
-import img from "./img/pngtree-user-vector-avatar-png-image_1541962.jpg";
+import {UserStateType} from "../../redux/users-reducer";
 import {Preloader} from "../common/preloader/Preloader";
-import {NavLink} from "react-router-dom";
-import {usersAPI} from "../../api/api";
 import {Pagination} from "../../components/common/paginator/Pagination";
 import {User} from "../../components/Users/User";
+import styles from './Users.module.css'
 
 type Props = {
     totalUsersCount: number
@@ -32,15 +29,18 @@ export const Users = (props: Props) => {
         followInPropgress,
         unfollow,
         users,
-        totalUsersCount
+        totalUsersCount,
     } = props
 
     return (
-        <div>
+        <div className={styles.wrapper}>
             {props.isFetching ? <Preloader/> : null}
 
-            <Pagination pageSize={pageSize} currentPage={currentPage} onPageChanged={onPageChanged}
-                        totalUsersCount={totalUsersCount}/>
+            <Pagination pageSize={pageSize}
+                        currentPage={currentPage}
+                        onPageChanged={onPageChanged}
+                        totalItemsCount={totalUsersCount}
+                        portionSize={10}/>
 
             <h2>Users</h2>
 
