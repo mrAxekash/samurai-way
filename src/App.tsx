@@ -7,14 +7,16 @@ import {Settings} from "./components/Settings/Settings";
 import {BrowserRouter, Route} from "react-router-dom";
 import {RootReducersType, store} from "./redux/redux-store";
 import {connect, Provider} from "react-redux";
-import ProfileContainer from "./components/Profile/ProfileContainer";
+
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import Dialogs from "./components/Dialogs/DialogsContainer";
-import UsersContainer from "./components/Users/UsersContainer";
+//import UsersContainer from "./components/Users/UsersContainer";
+//import ProfileContainer from "./components/Profile/ProfileContainer";
 import {compose} from "redux";
 import {Preloader} from "./components/common/preloader/Preloader";
 import {initialised} from "./redux/app-reducer";
+import {WithSuspens} from "./hoc/withSuspens";
 
 
 type AllAppActionsType = mapDispatchToPropsType & MapStateToPropsType
@@ -29,6 +31,10 @@ type mapDispatchToPropsType = {
 type MapStateToPropsType = {
     isAuthorised: boolean
 }
+
+const  ProfileContainer =  React.lazy(() => import('./components/Profile/ProfileContainer'));;
+const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
+
 
 class App extends React.Component<AllAppActionsType> {
 
@@ -48,13 +54,13 @@ class App extends React.Component<AllAppActionsType> {
                 <Navbar />
                 <div className={'app-wrapper-content'}>
                     <Route path={'/profile/:userId?'}
-                           component={ProfileContainer}
+                           component={ WithSuspens(ProfileContainer)}
                     />
                     {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
                     <Route exact path={'/dialogs'}
-                           component={Dialogs}
+                           component={WithSuspens(Dialogs)}
                     />
-                    <Route exact path={'/users'} component={UsersContainer}/>
+                    <Route exact path={'/users'} component={WithSuspens(UsersContainer)}/>
                     <Route exact path={'/news'} component={News}/>
                     <Route exact path={'/music'} component={Music}/>
                     <Route exact path={'/settings'} component={Settings}/>
