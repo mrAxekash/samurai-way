@@ -20,7 +20,8 @@ let state: ProfilePageType = {
     newPostText: '',
     profile: {} as UserProfileType,
     status: '',
-    updateUserStatus: () => {}
+    updateUserStatus: () => {},
+    isOwner: false
 }
 test('message of new post should be "IT-INCUBATOR"', () => {
 

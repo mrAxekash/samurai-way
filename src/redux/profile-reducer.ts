@@ -31,6 +31,7 @@ export type ProfilePageType = {
     profile: UserProfileType
     status: string
     updateUserStatus: (status: string) => void
+    isOwner: boolean
 }
 export type PostsType = {
     id: string
@@ -57,15 +58,9 @@ let initialState: ProfilePageType = {
     profile: {} as UserProfileType,
     status: '',
     updateUserStatus: () => {
-    }
+    },
+    isOwner: false,
 }
-
-export type AllProfileType =
-    AddPostACType
-    | UpdateNewPostTextACType
-    | setUsersACType
-    | SetUserStatusACType
-    | DeletePostACType
 
 export const profile_Reducer = (state: ProfilePageType = initialState, action: AllProfileType): ProfilePageType => {
     switch (action.type) {
@@ -90,18 +85,28 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
         case "DELETE-POST": {
             return {...state, posts: state.posts.filter(post => post.id !== action.postId)}
         }
+        case "CHANGE-PROFILE-PHOTO": {
+            return {...state, profile: {...state.profile, photos: action.photos} }
+        }
         default:
             return state
     }
 }
 
-export type AddPostACType = ReturnType<typeof addPostActionCreator>
+//actionCreators
+
+export const changeProfilePhotoAC = (photos: {small: string, large: string}) => {
+    return {
+        type: 'CHANGE-PROFILE-PHOTO',
+        photos
+    } as const
+}
 export const addPostActionCreator = (newPost: string) => ({type: ADD_POST, newPost} as const)
 
-export type UpdateNewPostTextACType = ReturnType<typeof updateNewPostTextActionCreator>
+
 export const updateNewPostTextActionCreator = (newText: string) => ({type: UPDATE_NEW_POST_TEXT, newText} as const)
 
-export type DeletePostACType = ReturnType<typeof deletePostAC>
+
 export const deletePostAC = (postId: string) => {
     return {
         type: "DELETE-POST",
@@ -110,12 +115,11 @@ export const deletePostAC = (postId: string) => {
 }
 
 
-export type setUsersACType = ReturnType<typeof setUsersProfileAC>
 export const setUsersProfileAC = (newUserProfile: UserProfileType) => {
     return {type: SET_USER_PROFILE, newUserProfile} as const
 }
 
-export type SetUserStatusACType = ReturnType<typeof setUserStatusAC>
+
 export const setUserStatusAC = (userStatus: string) => {
     return {
         type: 'SET-USER-STATUS',
@@ -123,6 +127,7 @@ export const setUserStatusAC = (userStatus: string) => {
     } as const
 }
 
+//thunks
 export const profileThunkCreator = (userId: number) => {
     return async (dispatch: Dispatch) => {
         const response = await profileAPI.getProfile(`${userId}`)
@@ -141,3 +146,31 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => 
         dispatch(setUserStatusAC(status))
     }
 }
+
+export const updateProfilePhotoTC = (file: any) => (dispatch: Dispatch) => {
+    profileAPI.updateProfilePhoto(file)
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                dispatch(changeProfilePhotoAC(res.data.data.photos))
+            }
+        })
+}
+
+
+//types
+
+export type setUsersACType = ReturnType<typeof setUsersProfileAC>
+export type SetUserStatusACType = ReturnType<typeof setUserStatusAC>
+export type DeletePostACType = ReturnType<typeof deletePostAC>
+export type UpdateNewPostTextACType = ReturnType<typeof updateNewPostTextActionCreator>
+export type AddPostACType = ReturnType<typeof addPostActionCreator>
+export type ChangeProfilePhotoACType = ReturnType<typeof changeProfilePhotoAC>
+
+export type AllProfileType =
+    AddPostACType
+    | UpdateNewPostTextACType
+    | setUsersACType
+    | SetUserStatusACType
+    | DeletePostACType
+    | ChangeProfilePhotoACType
+

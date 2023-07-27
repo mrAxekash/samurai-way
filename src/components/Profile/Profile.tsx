@@ -7,10 +7,9 @@ import {useSelector} from "react-redux";
 import {RootReducersType} from "../../redux/redux-store";
 
 
-export const Profile = (props: ProfilePageType) => {
+export const Profile = (props: ProfilePageType & {savePhoto: (file: any) => void}) => {
     const profileStatus = useSelector<RootReducersType, any>(state => state.profilePage.status)
     console.log('RENDER PROFILE')
-    console.log(props)
     if (!props.profile) return <Preloader/>
     return (
         <div>
@@ -19,6 +18,8 @@ export const Profile = (props: ProfilePageType) => {
                 profile={props.profile}
                 status={profileStatus}
                 updateUserStatus={props.updateUserStatus}
+                isOwner={props.isOwner}
+                savePhoto={props.savePhoto}
             />
             <MyPostsContainer />
         </div>

@@ -32,7 +32,7 @@ export const authAPI = {
             })
     },
     login(email: string, password: string, rememberMe: boolean = false) {
-       return instance.post<ResponseType<{userId: number}>>('auth/login', {email, password, rememberMe})
+        return instance.post<ResponseType<{ userId: number }>>('auth/login', {email, password, rememberMe})
     },
     logout() {
         return instance.delete<ResponseType>('auth/login')
@@ -48,6 +48,15 @@ export const profileAPI = {
     },
     updateStatus(status: string) {
         return instance.put('profile/status', {status})
+    },
+    updateProfilePhoto(file: any) {
+        let formData = new FormData()
+        formData.append('file', file)
+        return instance.put('profile/photo', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            }
+        })
     }
 }
 

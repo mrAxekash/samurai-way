@@ -1,8 +1,9 @@
-import React from "react";
+import React, {ChangeEvent, MouseEvent} from "react";
 import classes from './ProfileInfo.module.css';
-import {UserProfileType} from "../../../redux/profile-reducer";
-import {ProfileStatus} from "./ProfileStatus";
-import { ProfileStatusFC } from "./ProfileStatusFC";
+import {updateProfilePhotoTC, UserProfileType} from "../../../redux/profile-reducer";
+import {ProfileStatusFC} from "./ProfileStatusFC";
+import img from "../../Users/img/pngtree-user-vector-avatar-png-image_1541962.jpg";
+import {useDispatch} from "react-redux";
 
 
 type ProfileInfoType = {
@@ -10,13 +11,24 @@ type ProfileInfoType = {
     profile: UserProfileType
     status: string
     updateUserStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: any) => void
 }
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
+
+    const dispatch = useDispatch()
+
+    const setPhoto = (e: ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files?.length) {
+            props.savePhoto(e.target.files[0])
+        }
+    }
+
     return (
         <div>
             <div className={classes.profileDescription}>
-                <img src={props.profile.photos?.large ? props.profile.photos.large : '#' } alt="#"/>
-
+                <img src={props.profile.photos?.large || img } className={classes.mainPhoto} alt="#"/>
+                {props.isOwner && <input type={"file"} onChange={setPhoto}/>}
                 <div>
                     <h2>{props.profile.fullName}</h2>
                 </div>

@@ -4,7 +4,8 @@ import {connect} from "react-redux";
 import {
     ProfilePageType,
     profileStatusTC,
-    profileThunkCreator, updateStatusTC,
+    profileThunkCreator, updateProfilePhotoTC,
+    updateStatusTC,
     UserProfileType
 } from "../../redux/profile-reducer";
 import {RootReducersType} from "../../redux/redux-store";
@@ -22,8 +23,7 @@ type RouterPropsType = RouteComponentProps<userIdType> & AllProfileType
 
 class ProfileContainer extends React.Component<RouterPropsType> {
 
-
-    componentDidMount() {
+    refreshProfile() {
         // let userId = !this.props.match.params.userId ? '27215' :
         //     this.props.match.params.userId
 
@@ -47,10 +47,20 @@ class ProfileContainer extends React.Component<RouterPropsType> {
         this.props.setUserStatus(+userId)
     }
 
+    componentDidMount() {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps: Readonly<RouterPropsType>, prevState: Readonly<{}>, snapshot?: any) {
+        if(prevProps.match.params.userId !== this.props.match.params.userId) {
+            this.refreshProfile()
+        }
+    }
+
     render() {
         return (
             <>
-                <Profile {...this.props.profile} updateUserStatus={this.props.updateUserStatus}/>
+                <Profile {...this.props.profile} updateUserStatus={this.props.updateUserStatus} isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto} />
             </>
         )
     }
@@ -67,6 +77,8 @@ type MapDispatchToPropsType = {
     profileThunkCreator: (userId: number) => void
     setUserStatus: (userId: number) => void
     updateUserStatus: (status: string) => void
+    savePhoto: (file: any) => void
+
 }
 
 const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
@@ -93,7 +105,8 @@ const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
 export default compose<React.ComponentType>(connect(mapStateToProps, {
     profileThunkCreator: profileThunkCreator,
     setUserStatus: profileStatusTC,
-    updateUserStatus: updateStatusTC
+    updateUserStatus: updateStatusTC,
+    savePhoto: updateProfilePhotoTC
 }), WithAuthRedirect, withRouter)(ProfileContainer)
 
 // const AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
