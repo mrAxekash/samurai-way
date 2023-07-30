@@ -7,7 +7,7 @@ type ProfileStatusPropsType = {
     updateUserStatus: (status: string) => void
 }
 
-export const ProfileStatusFC = (props: ProfileStatusPropsType) =>  {
+export const ProfileStatusFC = (props: ProfileStatusPropsType) => {
 
     let [editMode, setEditMode] = useState(false)
     let [status, setStatus] = useState(props.userStatus)
@@ -22,7 +22,7 @@ export const ProfileStatusFC = (props: ProfileStatusPropsType) =>  {
         setEditMode(true)
     }
 
-    const deactivateMode =  () => {
+    const deactivateMode = () => {
         setEditMode(false)
         props.updateUserStatus(status)
     }
@@ -40,24 +40,27 @@ export const ProfileStatusFC = (props: ProfileStatusPropsType) =>  {
     //     }
     // }
 
-        return (
-            <div>
-                {!editMode && <div>
+    return (
+        <div>
+            <b>
+                Status:
+            </b>
+            {!editMode && <>
                     <span
                         onDoubleClick={activateMode}
-                        >
-                        {props.userStatus || '----------'}
+                    >
+                        { ` ${props.userStatus}` || '----------' }
                     </span>
-                </div>}
+            </>}
 
-                {editMode && <div>
-                    <input
-                        onBlur={deactivateMode}
-                        autoFocus
-                        value={status}
-                        onChange={onStatusChange}
-                    />
-                </div>}
-            </div>
-        )
+            {editMode && <>
+                <input
+                    onBlur={deactivateMode}
+                    autoFocus
+                    value={status}
+                    onChange={onStatusChange}
+                />
+            </>}
+        </div>
+    )
 };
