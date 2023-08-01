@@ -1,11 +1,13 @@
 import {v1} from "uuid";
 import {profileAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {CutomFormData} from "../components/Profile/ProfileInfo/ProfileDataForm";
+import {RootReducersType} from "./redux-store";
 
 export type  UserProfileType = {
     userId: string
     lookingForAJob: boolean
-    lookingForAJobDescription: string | null
+    lookingForAJobDescription: string
     fullName: string
     contacts: {
         github: string
@@ -147,11 +149,21 @@ export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => 
     }
 }
 
-export const updateProfilePhotoTC = (file: any) => (dispatch: Dispatch) => {
+export const updateProfilePhotoTC = (file: string) => (dispatch: Dispatch) => {
     profileAPI.updateProfilePhoto(file)
         .then(res => {
             if(res.data.resultCode === 0) {
                 dispatch(changeProfilePhotoAC(res.data.data.photos))
+            }
+        })
+}
+
+export const updateProfileDataTC = (data: CutomFormData) => (dispatch: Dispatch, getState: ()=>RootReducersType) => {
+    const id = getState().profilePage.profile.userId
+    profileAPI.updateProfileData(data)
+        .then(res => {
+            if(res.data.resultCode === 0) {
+                profileStatusTC(+id)
             }
         })
 }

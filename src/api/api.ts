@@ -1,4 +1,5 @@
 import axios from "axios";
+import {CutomFormData } from "../components/Profile/ProfileInfo/ProfileDataForm";
 
 const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
@@ -57,6 +58,9 @@ export const profileAPI = {
                 "Content-Type": "multipart/form-data",
             }
         })
+    },
+    updateProfileData(data: CutomFormData) {
+        return instance.put<ResponseType>('profile', data)
     }
 }
 

@@ -73,7 +73,6 @@ const LoginForm = (props: LoginFormType) => {
                     type="email"
                     placeholder={'Email or user name'}
                     className={errors.email ? errors.email.message && styles.errorForm : ''}
-                    value={'kashim007@mail.ru'}
                 />
                 <p className={errors.email && styles.errorMessage}>{errors.email?.message}</p>
             </div>
@@ -89,7 +88,6 @@ const LoginForm = (props: LoginFormType) => {
                     type="password"
                     placeholder={'Password'}
                     className={errors.password ? errors.password.message && styles.errorForm : ''}
-                    value={'Z1ng5ts2191'}
                 />
                 <p className={errors.password && styles.errorMessage}>{errors.password?.message}</p>
             </div>
