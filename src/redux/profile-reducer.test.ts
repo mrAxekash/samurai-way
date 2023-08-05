@@ -21,7 +21,9 @@ let state: ProfilePageType = {
     profile: {} as UserProfileType,
     status: '',
     updateUserStatus: () => {},
-    isOwner: false
+    isOwner: false,
+    statusError: [] as string[],
+    profileUpdateStatus: true
 }
 test('message of new post should be "IT-INCUBATOR"', () => {
 

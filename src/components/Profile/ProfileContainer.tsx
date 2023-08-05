@@ -2,6 +2,7 @@ import React from "react";
 import {Profile} from "./Profile";
 import {connect} from "react-redux";
 import {
+    changeProfileUpdateStatusAC, ChangeProfileUpdateStatusACType,
     ProfilePageType,
     profileStatusTC,
     profileThunkCreator, updateProfileDataTC, updateProfilePhotoTC,
@@ -15,6 +16,7 @@ import {WithAuthRedirect} from "../../hoc/withAuthRedirect";
 import {CutomFormData} from "./ProfileInfo/ProfileDataForm";
 
 class ProfileContainer extends React.Component<RouterPropsType> {
+
 
     refreshProfile() {
 
@@ -42,7 +44,16 @@ class ProfileContainer extends React.Component<RouterPropsType> {
     render() {
         return (
             <>
-                <Profile {...this.props.profile} updateUserStatus={this.props.updateUserStatus} isOwner={!this.props.match.params.userId} savePhoto={this.props.savePhoto} updateProfileData={this.props.updateProfileData} />
+                <Profile
+                    {...this.props.profile}
+                    updateUserStatus={this.props.updateUserStatus}
+                    isOwner={!this.props.match.params.userId}
+                    savePhoto={this.props.savePhoto}
+                    updateProfileData={this.props.updateProfileData}
+                    profileUpdateStatus={this.props.profileUpdateStatus}
+                    statusError={this.props.statusError}
+                    changeProfileUpdateStatusAC={this.props.changeProfileUpdateStatusAC}
+                />
             </>
         )
     }
@@ -53,7 +64,9 @@ const mapStateToProps = (state: RootReducersType): MapStateToPropsType => {
     console.log('MapStateToProps change profile')
     return {
         profile: state.profilePage,
-        authorisedUserId: state.auth.id
+        authorisedUserId: state.auth.id,
+        statusError: state.profilePage.statusError,
+        profileUpdateStatus: state.profilePage.profileUpdateStatus
     }
 }
 
@@ -63,7 +76,9 @@ export default compose<React.ComponentType>(connect(mapStateToProps, {
     setUserStatus: profileStatusTC,
     updateUserStatus: updateStatusTC,
     savePhoto: updateProfilePhotoTC,
-    updateProfileData: updateProfileDataTC
+    updateProfileData: updateProfileDataTC,
+    changeProfileUpdateStatusAC: changeProfileUpdateStatusAC
+
 }), WithAuthRedirect, withRouter)(ProfileContainer)
 
 
@@ -80,7 +95,8 @@ type RouterPropsType = RouteComponentProps<userIdType> & AllProfileType
 type MapStateToPropsType = {
     profile: ProfilePageType
     authorisedUserId: number | null
-
+    profileUpdateStatus: boolean
+    statusError: string[] | null
 }
 
 type MapDispatchToPropsType = {
@@ -90,5 +106,5 @@ type MapDispatchToPropsType = {
     updateUserStatus: (status: string) => void
     savePhoto: (file: any) => void
     updateProfileData: (data: CutomFormData) => void
-
+    changeProfileUpdateStatusAC: (newStatus: boolean) => void
 }

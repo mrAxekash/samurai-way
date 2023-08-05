@@ -1,7 +1,7 @@
 import {Action, AnyAction, Dispatch} from "redux";
 import {authAPI} from "../api/api";
 import {ThunkAction} from "redux-thunk";
-import {RootReducersType, RootStateType} from "./redux-store";
+import {AppThunk, RootReducersType, RootStateType} from "./redux-store";
 
 export const auth_Reducer = (state: InitialStateType = initialState, action: AuthUserType): InitialStateType => {
     switch (action.type) {
@@ -30,11 +30,11 @@ export const authThunkCreator = (): ThunkAction<any, RootReducersType, unknown, 
     }
 }
 
-export const loginUserTC = (email: string, password: string, rememberMe: boolean) => {
-    return async (dispatch: Dispatch) => {
+export const loginUserTC = (email: string, password: string, rememberMe: boolean): AppThunk => {
+    return async (dispatch) => {
         const res = await authAPI.login(email, password, rememberMe)
         if (res.data.resultCode === 0) {
-            dispatch(authThunkCreator() as any) //заглушка
+            dispatch(authThunkCreator()) //заглушка
         } else {
             if (res.data.messages.length > 0) {
                 dispatch(setAuthUser(null, null, null, false, res.data.messages[0]))

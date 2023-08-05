@@ -17,3 +17,8 @@
 .contacts {
     padding-left: 20px;
 }
+
+.error {
+    color: red;
+    border: 1px solid red;
+}

@@ -1,11 +1,12 @@
-import {applyMiddleware, combineReducers, compose, createStore, legacy_createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, compose, createStore, legacy_createStore} from "redux";
 import {profile_Reducer} from "./profile-reducer";
 import {dialogs_Reducer} from "./dialogs-reducer";
 import {sidebar_Reducer} from "./sidebar-reducer";
 import {users_Reducer} from "./users-reducer";
 import {auth_Reducer} from "./auth-reducer";
-import thunk from "redux-thunk";
+import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {appReducer} from "./app-reducer";
+import {useDispatch} from "react-redux";
 
 
 declare global {
@@ -35,6 +36,9 @@ export const store = legacy_createStore(rootReducers, /* preloadedState, */ comp
 export type RootStateType = ReturnType<typeof store.getState>
 
 export type RootReducersType = ReturnType<typeof rootReducers>
+
+export type AppThunk<ReturnType = void> = ThunkAction<void, RootStateType, unknown, AnyAction>
+//export const useAppDispatch = () => useDispatch<ThunkDispatch<RootStateType, any, AnyAction>>()
 
 //@ts-ignore
 window.store = store

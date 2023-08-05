@@ -1,8 +1,7 @@
 import {v1} from "uuid";
 import {profileAPI} from "../api/api";
-import {Dispatch} from "redux";
 import {CutomFormData} from "../components/Profile/ProfileInfo/ProfileDataForm";
-import {RootReducersType} from "./redux-store";
+import {AppThunk, RootReducersType} from "./redux-store";
 
 export type  UserProfileType = {
     userId: string
@@ -23,7 +22,7 @@ export type  UserProfileType = {
         small: string | null
         large: string | null
     }
-    aboutMe: null | ''
+    aboutMe: string
 }
 
 export type ProfilePageType = {
@@ -34,6 +33,9 @@ export type ProfilePageType = {
     status: string
     updateUserStatus: (status: string) => void
     isOwner: boolean
+    profileUpdateStatus: boolean
+    statusError: string[] | null
+
 }
 export type PostsType = {
     id: string
@@ -62,6 +64,8 @@ let initialState: ProfilePageType = {
     updateUserStatus: () => {
     },
     isOwner: false,
+    profileUpdateStatus: false,
+    statusError: null as string[] | null
 }
 
 export const profile_Reducer = (state: ProfilePageType = initialState, action: AllProfileType): ProfilePageType => {
@@ -88,7 +92,13 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
             return {...state, posts: state.posts.filter(post => post.id !== action.postId)}
         }
         case "CHANGE-PROFILE-PHOTO": {
-            return {...state, profile: {...state.profile, photos: action.photos} }
+            return {...state, profile: {...state.profile, photos: action.photos}}
+        }
+        case "CHANGE-PROFILE-UPDATE-STATUS": {
+            return {...state, profileUpdateStatus: action.newStatus}
+        }
+        case "SET-STATUS-PROFILE-ERROR": {
+            return {...state, statusError: action.error}
         }
         default:
             return state
@@ -97,7 +107,7 @@ export const profile_Reducer = (state: ProfilePageType = initialState, action: A
 
 //actionCreators
 
-export const changeProfilePhotoAC = (photos: {small: string, large: string}) => {
+export const changeProfilePhotoAC = (photos: { small: string, large: string }) => {
     return {
         type: 'CHANGE-PROFILE-PHOTO',
         photos
@@ -129,41 +139,64 @@ export const setUserStatusAC = (userStatus: string) => {
     } as const
 }
 
+export const changeProfileUpdateStatusAC = (newStatus: boolean) => {
+    return {
+        type: 'CHANGE-PROFILE-UPDATE-STATUS',
+        newStatus
+    } as const
+}
+
+export const setStatusProfileErrorAC = (error: string[]) => {
+    return {
+        type: "SET-STATUS-PROFILE-ERROR",
+        error
+    } as const
+}
+
+
+
 //thunks
-export const profileThunkCreator = (userId: number) => {
-    return async (dispatch: Dispatch) => {
+export const profileThunkCreator = (userId: number): AppThunk => {
+    return async (dispatch) => {
         const response = await profileAPI.getProfile(`${userId}`)
         dispatch(setUsersProfileAC(response.data))
     }
 }
 
-export const profileStatusTC = (userId: number) => async (dispatch: Dispatch) => {
+export const profileStatusTC = (userId: number): AppThunk => async (dispatch) => {
     const res = await profileAPI.getStatus(userId)
     dispatch(setUserStatusAC(res.data))
 }
 
-export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => {
+export const updateStatusTC = (status: string): AppThunk => async (dispatch) => {
     const res = await profileAPI.updateStatus(status)
     if (res.data.resultCode === 0) {
         dispatch(setUserStatusAC(status))
     }
 }
 
-export const updateProfilePhotoTC = (file: string) => (dispatch: Dispatch) => {
+export const updateProfilePhotoTC = (file: string): AppThunk => (dispatch) => {
     profileAPI.updateProfilePhoto(file)
         .then(res => {
-            if(res.data.resultCode === 0) {
+            if (res.data.resultCode === 0) {
                 dispatch(changeProfilePhotoAC(res.data.data.photos))
             }
         })
 }
 
-export const updateProfileDataTC = (data: CutomFormData) => (dispatch: Dispatch, getState: ()=>RootReducersType) => {
+export const updateProfileDataTC = (data: CutomFormData): AppThunk => (dispatch, getState: () => RootReducersType) => {
     const id = getState().profilePage.profile.userId
     profileAPI.updateProfileData(data)
         .then(res => {
-            if(res.data.resultCode === 0) {
-                profileStatusTC(+id)
+            if (res.data.resultCode === 0) {
+                dispatch(profileThunkCreator(+id))
+                dispatch(changeProfileUpdateStatusAC(false))
+            } else {
+                if (res.data.messages.length > 0) {
+                    dispatch(changeProfileUpdateStatusAC(true))
+                    dispatch(setStatusProfileErrorAC(res.data.messages))
+                }
+                //return Promise.reject(res.data.messages)
             }
         })
 }
@@ -177,6 +210,9 @@ export type DeletePostACType = ReturnType<typeof deletePostAC>
 export type UpdateNewPostTextACType = ReturnType<typeof updateNewPostTextActionCreator>
 export type AddPostACType = ReturnType<typeof addPostActionCreator>
 export type ChangeProfilePhotoACType = ReturnType<typeof changeProfilePhotoAC>
+export type ChangeProfileUpdateStatusACType = ReturnType<typeof changeProfileUpdateStatusAC>
+export type setStatusProfileErrorACType = ReturnType<typeof setStatusProfileErrorAC>
+
 
 export type AllProfileType =
     AddPostACType
@@ -185,4 +221,6 @@ export type AllProfileType =
     | SetUserStatusACType
     | DeletePostACType
     | ChangeProfilePhotoACType
+    | ChangeProfileUpdateStatusACType
+    | setStatusProfileErrorACType
 

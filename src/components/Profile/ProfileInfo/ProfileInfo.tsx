@@ -1,11 +1,12 @@
 import React, {ChangeEvent, useState} from "react";
 import classes from './ProfileInfo.module.css';
-import {UserProfileType} from "../../../redux/profile-reducer";
+import {
+    UserProfileType
+} from "../../../redux/profile-reducer";
 import {ProfileStatusFC} from "./ProfileStatusFC";
 import img from "../../Users/img/pngtree-user-vector-avatar-png-image_1541962.jpg";
 import {useDispatch} from "react-redux";
 import {CutomFormData, ProfileDataForm} from "./ProfileDataForm";
-import {Form} from "redux-form";
 
 
 type ProfileInfoType = {
@@ -16,12 +17,13 @@ type ProfileInfoType = {
     isOwner: boolean
     savePhoto: (file: any) => void
     updateProfileData: (data: CutomFormData) => void
+    profileUpdateStatus: boolean
+    statusError: null | string[]
+    changeProfileUpdateStatusAC: (newStatus: boolean) => void
 }
 
 
 export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
-    const [editMode, setEditMode] = useState(false)
-    const dispatch = useDispatch()
 
     const setPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
@@ -29,36 +31,37 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
         }
     }
     const editModeHandler = (editMode: boolean) => {
-        setEditMode(editMode)
+        props.changeProfileUpdateStatusAC(editMode)
     }
 
-    const onSubmit = (data: CutomFormData) => {
+    const onSubmit = async (data: CutomFormData) => {
         props.updateProfileData(data)
-        // console.log(data)
     }
-
 
     return (
         <div>
             <div className={classes.profileDescription}>
                 <img src={props.profile.photos?.large || img} className={classes.mainPhoto} alt="#"/>
                 {props.isOwner && <input type={"file"} onChange={setPhoto}/>}
-                {/*<div>*/}
-                {/*    {editMode ? <button onClick={editModeHandler}>Save profile</button> :<button onClick={editModeHandler}>Edit profile</button>}*/}
-                {/*</div>*/}
 
-                {editMode ?
+                {props.profileUpdateStatus ?
                     <ProfileDataForm
                         onSubmit={onSubmit}
                         profile={props.profile}
                         isOwner={props.isOwner}
-                        toEditMode={editModeHandler} />
+                        toEditMode={editModeHandler}
+                        profileUpdateStatus={props.profileUpdateStatus}
+                        changeProfileUpdateStatusAC={props.changeProfileUpdateStatusAC}
+                        statusError={props.statusError}
+                    />
                     : <ProfileData
                         profile={props.profile}
                         isOwner={props.isOwner}
                         toEditMode={editModeHandler}  />}
 
-                <ProfileStatusFC userStatus={props.status} updateUserStatus={props.updateUserStatus}/>
+                <ProfileStatusFC
+                    userStatus={props.status}
+                    updateUserStatus={props.updateUserStatus} />
             </div>
         </div>
     )
@@ -112,7 +115,9 @@ export type ProfileDataType = {
     isOwner: boolean
     toEditMode: (editMode: boolean) => void
     onSubmit?: (data: CutomFormData) => void
-
+    profileUpdateStatus?: boolean
+    changeProfileUpdateStatusAC?: (newStatus: boolean) => void
+    statusError?: null | string[]
 }
 export type KeyType = 'github' &
     'vk' &
