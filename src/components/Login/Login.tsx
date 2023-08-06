@@ -10,6 +10,7 @@ export type Inputs = {
     email: string
     password: string
     rememberMe: boolean
+    captcha: string | null
 }
 
 type Props = {};
@@ -17,6 +18,7 @@ type Props = {};
 export const Login = (props: Props) => {
 
     const isAuth = useSelector<RootReducersType, boolean>(state => state.auth.isAuth)
+
 
     if (isAuth) {
         return <Redirect to={'/profile'}/>
@@ -37,6 +39,7 @@ type LoginFormType = {
 const LoginForm = (props: LoginFormType) => {
     const dispatch = useDispatch()
     const authErrorMessage = useSelector<RootReducersType, string | null>(state => state.auth.error)
+    const captchaUrl = useSelector<RootReducersType, string | null>(state => state.auth.captcha)
 
     const {
         register,
@@ -49,14 +52,15 @@ const LoginForm = (props: LoginFormType) => {
         defaultValues: {
             email: '',
             password: '',
+            captcha: null
         },
 
     })
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
-        const {email, password, rememberMe} = data
-        dispatch(loginUserTC(email, password, rememberMe) as any) // as any это заглушка
-        reset()
+        const {email, password, rememberMe, captcha} = data
+        dispatch(loginUserTC(email, password, rememberMe, captcha) as any) // as any это заглушка
+        if(!authErrorMessage) reset()
     }
 
     return (
@@ -96,6 +100,14 @@ const LoginForm = (props: LoginFormType) => {
             <div>
                 <input {...register('rememberMe')} type="checkbox"/> Remember me
             </div>
+
+            <div>
+                {captchaUrl && <img alt={'captcha image'} src={captchaUrl} />}
+            </div>
+            <div>
+                {captchaUrl && <input {...register('captcha', {} )} type={'text'}/> }
+            </div>
+
             <div>
                 <button>Login</button>
             </div>

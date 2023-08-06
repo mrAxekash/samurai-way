@@ -11,12 +11,13 @@ import {connect, Provider} from "react-redux";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import Dialogs from "./components/Dialogs/DialogsContainer";
-//import UsersContainer from "./components/Users/UsersContainer";
-//import ProfileContainer from "./components/Profile/ProfileContainer";
 import {compose} from "redux";
 import {Preloader} from "./components/common/preloader/Preloader";
 import {initialised} from "./redux/app-reducer";
 import {WithSuspens} from "./hoc/withSuspens";
+//import UsersContainer from "./components/Users/UsersContainer";
+//import ProfileContainer from "./components/Profile/ProfileContainer";
+
 
 
 type AllAppActionsType = mapDispatchToPropsType & MapStateToPropsType
