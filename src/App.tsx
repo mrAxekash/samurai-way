@@ -4,10 +4,9 @@ import {Navbar} from "./components/Navbar/Navbar";
 import {News} from "./components/News/News";
 import {Music} from "./components/Music/Music";
 import {Settings} from "./components/Settings/Settings";
-import {BrowserRouter, HashRouter, Route} from "react-router-dom";
+import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import {RootReducersType, store} from "./redux/redux-store";
 import {connect, Provider} from "react-redux";
-
 import HeaderContainer from "./components/Header/HeaderContainer";
 import {Login} from "./components/Login/Login";
 import Dialogs from "./components/Dialogs/DialogsContainer";
@@ -17,7 +16,6 @@ import {initialised} from "./redux/app-reducer";
 import {WithSuspens} from "./hoc/withSuspens";
 //import UsersContainer from "./components/Users/UsersContainer";
 //import ProfileContainer from "./components/Profile/ProfileContainer";
-
 
 
 type AllAppActionsType = mapDispatchToPropsType & MapStateToPropsType
@@ -33,7 +31,7 @@ type MapStateToPropsType = {
     isAuthorised: boolean
 }
 
-const  ProfileContainer =  React.lazy(() => import('./components/Profile/ProfileContainer'));;
+const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 const UsersContainer = React.lazy(() => import('./components/Users/UsersContainer'));
 
 
@@ -45,27 +43,29 @@ class App extends React.Component<AllAppActionsType> {
 
     render() { /*функция-компонента, которая возвращает разметку HTML. Компонента не вызывается через ()*/
 
-        if(!this.props.isAuthorised) return <Preloader />
+        if (!this.props.isAuthorised) return <Preloader/>
 
         return (
             <div className={'app-wrapper'}>
 
                 <HeaderContainer/>
 
-                <Navbar />
+                <Navbar/>
                 <div className={'app-wrapper-content'}>
-                    <Route path={'/profile/:userId?'}
-                           component={ WithSuspens(ProfileContainer)}
-                    />
-                    {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
-                    <Route exact path={'/dialogs'}
-                           component={WithSuspens(Dialogs)}
-                    />
-                    <Route exact path={'/users'} component={WithSuspens(UsersContainer)}/>
-                    <Route exact path={'/news'} component={News}/>
-                    <Route exact path={'/music'} component={Music}/>
-                    <Route exact path={'/settings'} component={Settings}/>
-                    <Route exact path={'/login'} component={Login}/>
+                    <Switch>
+                        <Route path={'/profile/:userId?'}
+                               component={WithSuspens(ProfileContainer)}
+                        />
+                        {/*// передаём название компоненты, которая будет отрисовываться на основании ссылок (NavLink)*/}
+                        <Route exact path={'/dialogs'} component={WithSuspens(Dialogs)}/>
+                        <Route exact path={'/users'} component={WithSuspens(UsersContainer)}/>
+                        <Route exact path={'/news'} component={News}/>
+                        <Route exact path={'/music'} component={Music}/>
+                        <Route exact path={'/settings'} component={Settings}/>
+                        <Route exact path={'/login'} component={Login}/>
+                        <Redirect exact from={'/'} to={'/profile'} />
+                        <Route path={'*'} component={() => <div> 404 Page not found </div> }/>
+                    </Switch>
                 </div>
             </div>
             //<BrowserRouter> {/*BrowserRouter - обёртка для ссылок в документе. Применяется для работы компонент Route */}
@@ -76,7 +76,7 @@ class App extends React.Component<AllAppActionsType> {
 
 const AppContainer = compose(
     //withRouter,
-    connect(mapStateToProps, {initialisedApp: initialised} )) (App) ;
+    connect(mapStateToProps, {initialisedApp: initialised}))(App);
 
 export const SamuraiJSApp = () => {
     return (

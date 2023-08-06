@@ -26,7 +26,7 @@ export const auth_Reducer = (state: InitialStateType = initialState, action: All
 
 // thunks
 export const authThunkCreator = (): AppThunk => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch) => {
         const data = await authAPI.getAuth()
         if (data.resultCode === 0) {
             const {id, email, login} = data.data

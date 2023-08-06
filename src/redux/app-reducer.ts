@@ -1,7 +1,7 @@
 import {AnyAction, Dispatch} from "redux";
 import {authThunkCreator} from "./auth-reducer";
 import {ThunkAction, ThunkDispatch} from "redux-thunk";
-import {RootReducersType} from "./redux-store";
+import {AppThunk, RootReducersType} from "./redux-store";
 
 
 const initialState = {
@@ -19,7 +19,7 @@ export const appReducer = (state: InitialStateType = initialState, action: AllAc
 
 //thunks
 
-export const initialised = () => (dispatch : ThunkDispatch<RootReducersType, unknown, AnyAction>) => {
+export const initialised = (): AppThunk => (dispatch) => {
 
 	let promise = dispatch(authThunkCreator())
 
