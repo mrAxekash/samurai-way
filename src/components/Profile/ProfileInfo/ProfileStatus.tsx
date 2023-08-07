@@ -49,7 +49,7 @@ export class ProfileStatus extends React.Component<ProfileStatusPropsType> {
     render() {
         return (
             <div>
-                {!this.state.editMode ?  <div>
+                {!this.state.editMode ? <div>
                     <span onDoubleClick={this.activateMode}>{this.props.userStatus || '----------'}</span>
                 </div> : <div>
                     <input

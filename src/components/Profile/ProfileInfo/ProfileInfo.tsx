@@ -61,7 +61,9 @@ export const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
 
                 <ProfileStatusFC
                     userStatus={props.status}
-                    updateUserStatus={props.updateUserStatus} />
+                    updateUserStatus={props.updateUserStatus}
+                    isOwner={props.isOwner}
+                />
             </div>
         </div>
     )

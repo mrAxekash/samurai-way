@@ -5,6 +5,7 @@ import {ChangeEvent, useEffect, useState} from "react";
 type ProfileStatusPropsType = {
     userStatus: string
     updateUserStatus: (status: string) => void
+    isOwner: boolean
 }
 
 export const ProfileStatusFC = (props: ProfileStatusPropsType) => {
@@ -19,13 +20,14 @@ export const ProfileStatusFC = (props: ProfileStatusPropsType) => {
     // в объекте для изменения стейта внутри объекта есть метод setState. Сам метод асинхронен, т.е. снаачла отработает функция, и отправит данные для изменения стейта в event loop. Затем, когда цикл дойдёт до выполнения этой задачи, выполнится функция, что приведет к изменению данных, и начнётся перерисовка React-ом приложения.
 
     const activateMode = () => {
-        setEditMode(true)
+        props.isOwner && setEditMode(true)
     }
 
     const deactivateMode = () => {
-        setEditMode(false)
         props.updateUserStatus(status)
+        setEditMode(false)
     }
+
 
     const onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         setStatus(e.currentTarget.value)
@@ -49,7 +51,7 @@ export const ProfileStatusFC = (props: ProfileStatusPropsType) => {
                     <span
                         onDoubleClick={activateMode}
                     >
-                        { ` ${props.userStatus}` || '----------' }
+                        {` ${props.userStatus}` || '----------'}
                     </span>
             </>}
 

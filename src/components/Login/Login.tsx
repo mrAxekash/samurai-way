@@ -50,8 +50,8 @@ const LoginForm = (props: LoginFormType) => {
     } = useForm<Inputs>({
         mode: 'onBlur',
         defaultValues: {
-            email: '',
-            password: '',
+            email: 'kashim007@mail.ru',
+            password: 'Z1ng5ts2191',
             captcha: null
         },
 
